@@ -177,11 +177,14 @@ document.addEventListener("DOMContentLoaded", function() {
             spaceBetween: 30,
             centeredSlides: true,
             loop: true,
-            speed: 400,
-            navigation: {
-                nextEl: '.recipes-arrow-next',
-                prevEl: '.recipes-arrow-prev',
+            
+            // AUTOPLAY SETTINGS
+            autoplay: {
+                delay: 1500, // Time between slides (1.5 seconds)
+                disableOnInteraction: false, // Keeps scrolling even if user interacts
             },
+            speed: 800, // Speed of transition
+            
             breakpoints: {
                 768: {
                     slidesPerView: 3,
@@ -194,8 +197,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-
-    // News section - no Swiper needed, just 3 static cards with hover effect
 
     // Instagram section Swiper initialization
     const swiperInstagramElement = document.querySelector('.myInstagramSwiper');

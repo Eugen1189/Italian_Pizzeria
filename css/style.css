@@ -248,31 +248,24 @@ body {
 /* --- Marquee / Running Strip Styles --- */
 
 .running-strip {
-    /* Brar's color is a dark purple/gray */
-    background-color: #2F2B31; 
-    
-    /* Position the strip between slider and menu */
+    background-color: #008C45; /* Italian green */
     position: relative;
     width: 100%;
-    
-    height: 30px; /* Slim height */
-    overflow: hidden; /* Crucial: hides the text outside the strip */
-    white-space: nowrap; /* Prevents text from wrapping */
+    height: 30px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .running-text {
     display: inline-block;
-    padding-top: 5px; /* Adjust vertical alignment */
-    color: #F7EFE5; /* Light text color */
+    padding-top: 5px;
+    color: white;
     font-size: 0.85rem;
     font-weight: 500;
     text-transform: uppercase;
-    
-    /* Start the animation */
-    animation: moveMarquee 25s linear infinite; /* 25 seconds for a full cycle */
+    animation: moveMarquee 25s linear infinite;
 }
 
-/* Ensure the text copies are side-by-side */
 .running-text span {
     margin-right: 20px;
 }
@@ -297,6 +290,11 @@ body {
 
 .swiper-slide {
     transition: background-color 0.6s ease; /* Smooth color transition */
+    /* Ensure proper centering */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
 }
 
 .slide-title {
@@ -329,6 +327,9 @@ body {
     border-radius: 50%; /* Keep the circle border for Italian round pizza */
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
     z-index: 10; /* Ensure pizza image is above the ornament */
+    margin: 0; /* Remove any unwanted margins */
+    align-self: center; /* Center the image within flex container */
+    flex-shrink: 0; /* Prevent image from shrinking */
 }
 
 /* Ornament Pseudo-element (Mimicking the background shape) */
@@ -457,13 +458,13 @@ body {
 /* --- Menu Categories Section Styles --- */
 
 .menu-categories-section {
-    background-color: #008C45; /* Italian green */
+    background-color: #008C45; /* Green background */
     position: relative;
     width: 100vw;
     max-width: 100vw;
     min-height: 500px;
     margin: 0;
-    padding: 0;
+    padding: 60px 0;
 }
 
 #popular-scroll {
@@ -480,8 +481,9 @@ body {
 
 .menu-section-title {
     font-family: serif;
-    color: #333;
+    color: white; /* White color for visibility on green background */
     padding-top: 20px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Add shadow for better readability */
 }
 
 /* 1. Category Tabs (Buttons) */
@@ -803,16 +805,16 @@ body {
     padding: 10px 30px;
     transition: all 0.3s ease;
     background-color: transparent;
-    border-color: #DA291C;
-    color: #DA291C;
+    border-color: white; /* White border for visibility on green background */
+    color: white; /* White text */
 }
 
 #most-popular .btn-outline-danger:hover {
-    background-color: #DA291C !important;
-    border-color: #DA291C !important;
-    color: white !important;
+    background-color: white !important;
+    border-color: white !important;
+    color: #008C45 !important; /* Green text on white background */
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
 }
 
 #most-popular .btn-outline-danger:active {
@@ -1115,210 +1117,29 @@ body {
     position: relative;
 }
 
-.recipes-arrow-prev, 
-.recipes-arrow-next {
-    background: #333;
-    color: white;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    line-height: 45px;
-    text-align: center;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
 
-.recipes-arrow-prev:hover, 
-.recipes-arrow-next:hover {
-    background: #DA291C;
-    transform: scale(1.1);
-}
-
-.recipes-arrow-prev::after, 
-.recipes-arrow-next::after {
-    content: none;
-}
-
-.recipes-section .swiper-button-prev {
-    position: absolute;
-    bottom: -60px;
-    left: 50%;
-    transform: translateX(-50%) translateX(-35px);
-}
-
-.recipes-section .swiper-button-next {
-    position: absolute;
-    bottom: -60px;
-    left: 50%;
-    transform: translateX(-50%) translateX(35px);
-}
-
-/* --- News Section Styles --- */
-
-.news-section {
-    background-color: #008C45; /* Italian green */
-    color: white;
-    padding-top: 80px;
-    padding-bottom: 80px;
-}
-
-.news-title {
-    color: white;
-}
-
-/* 1. News Slider Structure */
-.news-slider-wrapper {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    height: 550px;
-    overflow: hidden;
-}
-
-.myNewsSwiper {
-    width: 100%;
-    height: 100%;
-}
-
-.news-row-slide {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    padding: 0 20px;
-    gap: 20px;
-}
-
-/* 2. Individual Columns - Simple Rounded Rectangles */
-.news-column {
-    width: 32%;
-    padding: 20px 20px 50px 20px;
-    height: 500px;
-    position: relative;
-    z-index: 10;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: all 0.4s ease;
-    opacity: 0;
-    transform: translateY(30px) scale(0.9);
-    border-radius: 15px; /* Standard rounded corners */
-    overflow: hidden; /* Ensure content stays within rounded borders */
-}
-
-.news-column:hover {
-    opacity: 1;
-    transform: translateY(0) scale(1.05);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    z-index: 20;
-}
-
-.column-title {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.15);
-    padding: 20px 8px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    height: 100%;
-}
-
-/* 3. Column Colors - Italian Colors */
-/* Deep Red Column */
-.column-yellow { 
-    background-color: #A03131; 
-    color: white; 
-}
-
-/* Italian Green Column */
-.column-blue { 
-    background-color: #2D5016; 
-    color: white; 
-}
-
-/* Gold Column */
-.column-purple { 
-    background-color: #D4AF37; 
-    color: #333; 
-}
-
-/* Olive Column */
-.column-green { 
-    background-color: #6B8E23; 
-    color: white;
-}
-
-/* Tomato Red Column */
-.column-red { 
-    background-color: #C0392B; 
-    color: white;
-}
-
-/* Rustic Orange Column */
-.column-orange { 
-    background-color: #E67E22; 
-    color: white;
-}
-
-/* 4. Article Content Styling */
-.article-date {
-    font-size: 0.85rem;
+/* Navigation buttons for recipes section - same style as menu */
+.recipes-section .btn-outline-danger {
+    border-width: 2px;
     font-weight: 600;
-    margin-bottom: 15px;
-    opacity: 0.8;
+    padding: 10px 30px;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    border-color: #DA291C;
+    color: #DA291C;
 }
 
-.article-title {
-    font-size: 1.5rem;
-    font-weight: 900;
-    line-height: 1.2;
-    margin-bottom: 15px;
+.recipes-section .btn-outline-danger:hover {
+    background-color: #DA291C !important;
+    border-color: #DA291C !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
 }
 
-.article-snippet {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    flex-grow: 1;
+.recipes-section .btn-outline-danger:active {
+    transform: translateY(0);
 }
-
-.read-more-link {
-    color: inherit;
-    font-weight: bold;
-    text-decoration: none;
-    transition: all 0.2s;
-}
-
-.read-more-link:hover {
-    opacity: 0.8;
-    transform: translateX(5px);
-}
-
-.article-image-container {
-    position: absolute;
-    bottom: -10px;
-    left: 10px;
-    width: 90%;
-    height: 200px;
-    z-index: 5;
-}
-
-.article-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
 
 /* --- Category Marquee Strip Styles --- */
 
@@ -1389,9 +1210,16 @@ body {
 
 .instagram-section {
     position: relative;
-    background-color: #FFFFFF; /* Italian white */
+    background-color: #CD212A; /* Italian red - same as recipes section */
     padding-top: 100px;
     padding-bottom: 100px;
+}
+
+/* Make Instagram title readable on red background */
+.instagram-section .recipes-title {
+    color: white;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    font-weight: 900;
 }
 
 /* 1. Gallery Slider & Cards */
@@ -1420,48 +1248,46 @@ body {
     position: relative;
     height: 100%;
     width: 100%;
-    overflow: visible;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
 }
 
-/* Background decorative elements for posts - now they ARE the card background */
+/* Decorative circle element behind the image - same as menu section effect */
 .instagram-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    border-radius: 15px;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-/* Different colors for each post position */
-.swiper-slide:nth-child(1) .instagram-card::before { background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); }
-.swiper-slide:nth-child(2) .instagram-card::before { background: linear-gradient(135deg, #9E2A2B 0%, #7B1F20 100%); }
-.swiper-slide:nth-child(3) .instagram-card::before { background: linear-gradient(135deg, #4AA9E8 0%, #2E5C8F 100%); }
-.swiper-slide:nth-child(4) .instagram-card::before { background: linear-gradient(135deg, #B29759 0%, #8B7349 100%); }
-.swiper-slide:nth-child(5) .instagram-card::before { background: linear-gradient(135deg, #6AB84A 0%, #4A8B2A 100%); }
-.swiper-slide:nth-child(6) .instagram-card::before { background: linear-gradient(135deg, #B880D4 0%, #8B5FB0 100%); }
-.swiper-slide:nth-child(7) .instagram-card::before { background: linear-gradient(135deg, #DA291C 0%, #A02018 100%); }
-.swiper-slide:nth-child(8) .instagram-card::before { background: linear-gradient(135deg, #FFC300 0%, #D8941F 100%); }
-
-.instagram-card:hover {
-    transform: translateY(-5px);
+    top: 20%;
+    left: 10%;
+    width: 80px;
+    height: 80px;
+    border: 5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    z-index: 5;
+    transition: all 0.5s ease;
 }
 
 .instagram-card:hover::before {
-    opacity: 1;
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+.instagram-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .insta-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center; /* Center the image */
+    border-radius: 20px;
+    z-index: 10;
+    position: relative;
     transition: transform 0.5s ease;
-    border-radius: 10px;
+    display: block;
 }
 
 .instagram-card:hover .insta-img {
@@ -1842,6 +1668,12 @@ body {
         padding: 8px 20px;
     }
     
+    /* Recipes section buttons */
+    .recipes-section .btn-outline-danger {
+        font-size: 0.9rem;
+        padding: 8px 20px;
+    }
+    
     /* Menu categories section */
     .menu-categories-section {
         min-height: 400px;
@@ -2031,6 +1863,13 @@ body {
     
     /* Menu buttons */
     #most-popular .btn-outline-danger {
+        font-size: 0.8rem;
+        padding: 6px 15px;
+        margin: 5px;
+    }
+    
+    /* Recipes section buttons */
+    .recipes-section .btn-outline-danger {
         font-size: 0.8rem;
         padding: 6px 15px;
         margin: 5px;

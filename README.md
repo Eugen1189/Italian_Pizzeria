@@ -38,8 +38,6 @@ Italian_Pizzeria/
 
 ## Getting Started
 
-### Local Development
-
 1. Clone the repository:
    ```bash
    git clone https://github.com/Eugen1189/Italian_Pizzeria.git
@@ -51,17 +49,6 @@ Italian_Pizzeria/
    ```
 
 3. Open `index.html` in your web browser.
-
-### Deploy to Netlify
-
-1. Push your code to GitHub
-2. Go to [Netlify](https://www.netlify.com/)
-3. Click "Add new site" → "Import an existing project"
-4. Connect your GitHub repository
-5. Netlify will auto-detect the settings from `netlify.toml`
-6. Click "Deploy site"
-
-The site will be automatically deployed and you'll get a live URL!
 
 ## Features Description
 
