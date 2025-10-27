@@ -25,8 +25,8 @@
                 <a class="navbar-brand logo-text mx-auto" href="#">La Vera Pizza</a>
                 
                 <div class="header-actions d-flex">
-                    <button class="btn btn-outline-light me-2">Prenota</button>
-                    <button class="btn btn-primary btn-order">Ordina Online</button>
+                    <a href="#" class="btn btn-find-product me-2">Prenota</a>
+                    <a href="#" class="btn btn-find-product">Ordina Online</a>
                 </div>
             </div>
         </nav>
@@ -43,7 +43,7 @@
                 </div>
                 
                 <div class="slide-cta">
-                    <button class="btn btn-lg btn-light">Visualizza Pizza</button>
+                    <button class="btn btn-lg btn-light hero-cta-btn">Visualizza Pizza</button>
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
                 </div>
                 
                 <div class="slide-cta">
-                    <button class="btn btn-lg btn-light">Ordina Ora</button>
+                    <button class="btn btn-lg btn-light hero-cta-btn">Ordina Ora</button>
                 </div>
             </div>
 
@@ -67,7 +67,7 @@
                 </div>
                 
                 <div class="slide-cta">
-                    <button class="btn btn-lg btn-light">Dettagli Menu</button>
+                    <button class="btn btn-lg btn-light hero-cta-btn">Dettagli Menu</button>
                 </div>
             </div>
 
@@ -217,11 +217,17 @@
             </button>
         </div>
 
-        <div class="recipes-scroll-container" id="recipes-scroll">
-            <div class="d-flex flex-nowrap gap-5 recipes-list" id="recipes-list" style="overflow-x: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;">
+        <div class="swiper myRecipesSwiper">
+            <div class="swiper-wrapper recipes-card-wrapper">
                 
-                <div class="recipe-card-slide card-color-red">
+                <div class="swiper-slide recipe-card-slide card-color-red">
                     <div class="recipe-card">
+                        <div class="card-decoration card-deco-arrow">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="card-decoration card-deco-chef">
+                            <i class="fas fa-utensils"></i>
+                        </div>
                         <img src="img/pizza_margherita.jpg.png" alt="Pizza Margherita" class="recipe-img">
                         <div class="recipe-content">
                             <span class="recipe-time">15 min</span>
@@ -232,8 +238,14 @@
                     </div>
                 </div>
 
-                <div class="recipe-card-slide card-color-blue">
+                <div class="swiper-slide recipe-card-slide card-color-blue">
                     <div class="recipe-card">
+                        <div class="card-decoration card-deco-arrow">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="card-decoration card-deco-chef">
+                            <i class="fas fa-utensils"></i>
+                        </div>
                         <img src="img/pasta_carbonara.jpg.png" alt="Carbonara" class="recipe-img">
                         <div class="recipe-content">
                             <span class="recipe-time">25 min</span>
@@ -244,8 +256,14 @@
                     </div>
                 </div>
 
-                <div class="recipe-card-slide card-color-yellow">
+                <div class="swiper-slide recipe-card-slide card-color-yellow">
                     <div class="recipe-card">
+                        <div class="card-decoration card-deco-arrow">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="card-decoration card-deco-chef">
+                            <i class="fas fa-utensils"></i>
+                        </div>
                         <img src="img/dessert_tiramisu.jpg.png" alt="Tiramisù" class="recipe-img">
                         <div class="recipe-content">
                             <span class="recipe-time">30 min</span>
@@ -256,8 +274,14 @@
                     </div>
                 </div>
 
-                <div class="recipe-card-slide card-color-purple">
+                <div class="swiper-slide recipe-card-slide card-color-purple">
                     <div class="recipe-card">
+                        <div class="card-decoration card-deco-arrow">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="card-decoration card-deco-chef">
+                            <i class="fas fa-utensils"></i>
+                        </div>
                         <img src="img/antipasto_caprese.jpg.png" alt="Caprese" class="recipe-img">
                         <div class="recipe-content">
                             <span class="recipe-time">10 min</span>
@@ -268,8 +292,14 @@
                     </div>
                 </div>
 
-                <div class="recipe-card-slide card-color-green">
+                <div class="swiper-slide recipe-card-slide card-color-green">
                     <div class="recipe-card">
+                        <div class="card-decoration card-deco-arrow">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="card-decoration card-deco-chef">
+                            <i class="fas fa-utensils"></i>
+                        </div>
                         <img src="img/pizza_diavola.jpg.png" alt="Pizza Diavola" class="recipe-img">
                         <div class="recipe-content">
                             <span class="recipe-time">20 min</span>
@@ -280,8 +310,14 @@
                     </div>
                 </div>
 
-                <div class="recipe-card-slide card-color-orange">
+                <div class="swiper-slide recipe-card-slide card-color-orange">
                     <div class="recipe-card">
+                        <div class="card-decoration card-deco-arrow">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="card-decoration card-deco-chef">
+                            <i class="fas fa-utensils"></i>
+                        </div>
                         <img src="img/pizza_quattro_formaggi.jpg.png" alt="Quattro Formaggi" class="recipe-img">
                         <div class="recipe-content">
                             <span class="recipe-time">25 min</span>
@@ -293,16 +329,245 @@
                 </div>
 
             </div>
-            <div class="text-center mt-4">
-                <button class="btn btn-outline-dark me-3" onclick="scrollLeftRecipes()">
-                    <i class="fas fa-chevron-left me-2"></i>Indietro
-                </button>
-                <button class="btn btn-outline-dark" onclick="scrollRightRecipes()">
-                    Avanti<i class="fas fa-chevron-right ms-2"></i>
-                </button>
+
+            <div class="swiper-button-prev recipes-arrow-prev"><i class="fas fa-arrow-left"></i></div>
+            <div class="swiper-button-next recipes-arrow-next"><i class="fas fa-arrow-right"></i></div>
+        </div>
+    </section>
+
+    <section class="news-section py-5">
+        <div class="container text-center mb-5">
+            <p class="text-uppercase text-muted fw-bold mb-1">NOVITÀ</p>
+            <h2 class="display-3 news-title mb-4">
+                IL MONDO DI LA VERA PIZZA
+            </h2>
+            <button class="btn btn-dark view-more-btn">
+                Vedi Altro <i class="fas fa-chevron-right ms-2"></i>
+            </button>
+        </div>
+
+        <div class="news-slider-wrapper">
+            <div class="swiper myNewsSwiper">
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide news-row-slide">
+                        <div class="news-column column-yellow">
+                            <span class="column-title">ULTIME NOTIZIE</span>
+                            <div class="article-date">5 Agosto 2025</div>
+                            <h3 class="article-title">LA NOSTRA PICCOLA STORIA VINCE IL CONCORSO</h3>
+                            <a href="#" class="read-more-link">Leggi di Più <i class="fas fa-chevron-right ms-1"></i></a>
+                            <div class="article-image-container">
+                                <img src="img/pizza_margherita.jpg.png" alt="Award ceremony" class="img-fluid article-img">
+                            </div>
+                        </div>
+
+                        <div class="news-column column-blue">
+                            <span class="column-title">AGGIORNAMENTI</span>
+                            <div class="article-date">4 Luglio 2025</div>
+                            <h3 class="article-title">AIUTIAMO I BAMBINI CON LA TORTA</h3>
+                            <a href="#" class="read-more-link">Leggi di Più <i class="fas fa-chevron-right ms-1"></i></a>
+                            <div class="article-image-container">
+                                <img src="img/pizza_diavola.jpg.png" alt="Charity event" class="img-fluid article-img">
+                            </div>
+                        </div>
+
+                        <div class="news-column column-purple">
+                            <span class="column-title">PRODOTTI NUOVI</span>
+                            <div class="article-date">5 Agosto 2025</div>
+                            <h3 class="article-title">PIZZA A LA MARGHERITA X CHEF GINO</h3>
+                            <a href="#" class="read-more-link">Leggi di Più <i class="fas fa-chevron-right ms-1"></i></a>
+                            <div class="article-image-container">
+                                <img src="img/pizza_quattro_formaggi.jpg.png" alt="Chef collaboration" class="img-fluid article-img">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>
+
+    <section class="instagram-section">
+        <div class="container text-center py-5">
+            <h2 class="display-3 recipes-title mb-4">#LAVERA PIZZA LIFE</h2>
+        </div>
+
+        <div class="swiper myInstagramSwiper">
+            <div class="swiper-wrapper instagram-card-wrapper">
+
+                <div class="swiper-slide instagram-card-slide">
+                    <div class="instagram-card">
+                        <img src="img/pizza_margherita.jpg.png" alt="Pizza Margherita" class="insta-img">
+                        <div class="insta-overlay">
+                            <i class="fab fa-instagram"></i> @laverapizza
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide instagram-card-slide">
+                    <div class="instagram-card">
+                        <img src="img/pasta_carbonara.jpg.png" alt="Carbonara" class="insta-img">
+                        <div class="insta-overlay">
+                            <i class="fab fa-instagram"></i> @laverapizza
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="swiper-slide instagram-card-slide">
+                    <div class="instagram-card">
+                        <img src="img/pizza_diavola.jpg.png" alt="Pizza Diavola" class="insta-img">
+                        <div class="insta-overlay">
+                            <i class="fab fa-instagram"></i> @laverapizza
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide instagram-card-slide">
+                    <div class="instagram-card">
+                        <img src="img/dessert_tiramisu.jpg.png" alt="Tiramisu" class="insta-img">
+                        <div class="insta-overlay">
+                            <i class="fab fa-instagram"></i> @laverapizza
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide instagram-card-slide">
+                    <div class="instagram-card">
+                        <img src="img/antipasto_caprese.jpg.png" alt="Caprese" class="insta-img">
+                        <div class="insta-overlay">
+                            <i class="fab fa-instagram"></i> @laverapizza
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide instagram-card-slide">
+                    <div class="instagram-card">
+                        <img src="img/pizza_quattro_formaggi.jpg.png" alt="Quattro Formaggi" class="insta-img">
+                        <div class="insta-overlay">
+                            <i class="fab fa-instagram"></i> @laverapizza
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide instagram-card-slide">
+                    <div class="instagram-card">
+                        <img src="img/shelf_of_pizzas.webp.png" alt="Shelf of Pizzas" class="insta-img">
+                        <div class="insta-overlay">
+                            <i class="fab fa-instagram"></i> @laverapizza
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide instagram-card-slide">
+                    <div class="instagram-card">
+                        <img src="img/pizza_margherita.jpg.png" alt="Pizza Margherita" class="insta-img">
+                        <div class="insta-overlay">
+                            <i class="fab fa-instagram"></i> @laverapizza
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="instagram-bottom-strip">
+            <div class="container d-flex justify-content-end align-items-center h-100">
+                <div class="branding-circle">
+                    <div class="branding-text">
+                        NUOVO & MIGLIORATO <br> LA VERA PIZZA
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        
+        <div class="subscribe-area text-center py-5">
+            <div class="container">
+                <h2 class="subscribe-title mb-4">ARRICCHISCI LA TUA INBOX</h2>
+                <p class="subscribe-text mb-4">
+                    Ricevi offerte speciali e tutte le ultime novità su prodotti, ricette e notizie!
+                </p>
+                
+                <form class="subscribe-form mx-auto">
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Nome Completo*" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="email" class="form-control" placeholder="Indirizzo Email*" required>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-submit w-100">Invia <i class="fas fa-arrow-right ms-2"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-check mt-3 text-start d-flex justify-content-center">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label ms-2" for="flexCheckDefault">
+                            Sì, desidero ricevere aggiornamenti, promozioni e offerte da La Vera Pizza.
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-details-area py-5">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <h5 class="footer-heading">NAVIGAZIONE</h5>
+                        <ul class="footer-links">
+                            <li><a href="#">Chi Siamo</a></li>
+                            <li><a href="#">Novità</a></li>
+                            <li><a href="#">Termini di Utilizzo</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <h5 class="footer-heading">ISCRIVITI</h5>
+                        <p class="small">Ricevi le ultime novità e offerte esclusive da La Vera Pizza.</p>
+                        <div class="small-subscribe-form d-flex mb-3">
+                             <input type="email" class="form-control" placeholder="Email*" required>
+                             <button type="submit" class="btn btn-sm btn-submit-sm"><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                        <div class="social-icons">
+                            <i class="fab fa-facebook-f me-3"></i>
+                            <i class="fab fa-instagram me-3"></i>
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h5 class="footer-heading">CONTATTACI</h5>
+                        <address class="contact-info">
+                            +39 06 123 4567<br>
+                            ciao@laverapizza.it<br>
+                            vendite@laverapizza.it
+                        </address>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h5 class="footer-heading">SEDE CENTRALE</h5>
+                        <address class="contact-info">
+                            Corso Vittorio Emanuele II, 160<br>
+                            00186 Roma RM, Italia
+                        </address>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-branding-area text-center py-3">
+            <p class="mb-0 small">
+                © 2025 LA VERA PIZZA. Tutti i diritti riservati. | <a href="#">#PIZZADONEBETTER</a>
+            </p>
+        </div>
+
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

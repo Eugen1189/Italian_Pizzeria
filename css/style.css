@@ -7,7 +7,7 @@ body {
 
 /* 1. Header styles */
 .main-header {
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for contrast */
+    background-color: #8B1A1A; /* Deep Italian red */
     backdrop-filter: blur(5px);
     z-index: 1000; /* Overlaps the slider */
 }
@@ -17,6 +17,8 @@ body {
     font-weight: bold;
     color: white !important; /* White logo */
     text-transform: uppercase;
+    font-family: 'Georgia', serif; /* Elegant serif font */
+    letter-spacing: 2px;
 }
 
 .nav-link {
@@ -25,10 +27,39 @@ body {
     font-weight: 500;
 }
 
-.btn-order {
-    background-color: #DA291C; /* Red color, like Italian flag */
-    border-color: #DA291C;
+.btn-find-product {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-find-product:hover {
+    background-color: #1a1a1a;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Hero Slider Button CTA Style --- */
+.hero-cta-btn {
+    background-color: white;
+    color: #333;
+    border-radius: 40px;
+    padding: 10px 30px;
     font-weight: bold;
+    border: 2px solid #DA291C;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+.hero-cta-btn:hover {
+    background-color: #DA291C;
+    color: white;
 }
 
 /* --- Dynamic Highlighting Section Styles --- */
@@ -872,28 +903,19 @@ body {
 }
 
 /* 1. Recipe Slider & Cards */
-.recipes-scroll-container {
-    position: relative;
-    overflow: hidden;
+.myRecipesSwiper {
+    width: 100%;
+    padding-left: 0 !important; 
+    padding-right: 0 !important;
 }
 
-#recipes-list {
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+.recipes-card-wrapper {
     padding: 0 5vw;
-}
-
-#recipes-list::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
 }
 
 .recipe-card-slide {
     width: 280px !important;
     height: 400px;
-    flex-shrink: 0;
     border-radius: 15px;
     overflow: hidden;
     position: relative;
@@ -919,13 +941,13 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .recipe-img {
     height: 50%;
     width: 100%;
     object-fit: cover;
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
 }
 
 .recipe-content {
@@ -977,15 +999,586 @@ body {
     color: white;
 }
 
-/* 2. Navigation Buttons */
-.recipes-scroll-container .btn {
+/* --- Recipe Card Decorative Elements --- */
+
+.card-decoration {
+    position: absolute;
+    z-index: 20;
+    color: white;
+    width: 50px;
+    height: 50px;
+    background-color: #333;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.card-deco-arrow {
+    top: 50%;
+    left: 10px;
+}
+
+.card-deco-chef {
+    top: 50%;
+    right: 10px;
+}
+
+/* Active state - show decorations when slide is active */
+.swiper-slide-active .card-decoration {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+}
+
+/* Optional: Different color for chef icon when active */
+.swiper-slide-active .card-deco-chef {
+    background-color: #DA291C;
+}
+
+/* 2. Custom Navigation Arrows */
+.recipes-section .swiper {
+    position: relative;
+}
+
+.recipes-arrow-prev, 
+.recipes-arrow-next {
+    background: #333;
+    color: white;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.recipes-scroll-container .btn:hover {
-    background-color: #DA291C !important;
-    border-color: #DA291C !important;
-    color: white !important;
+.recipes-arrow-prev:hover, 
+.recipes-arrow-next:hover {
+    background: #DA291C;
+    transform: scale(1.1);
+}
+
+.recipes-arrow-prev::after, 
+.recipes-arrow-next::after {
+    content: none;
+}
+
+.recipes-section .swiper-button-prev {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%) translateX(-35px);
+}
+
+.recipes-section .swiper-button-next {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%) translateX(35px);
+}
+
+/* --- News Section Styles --- */
+
+.news-section {
+    background-color: #333;
+    color: white;
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.news-title {
+    color: white;
+}
+
+/* 1. News Slider Structure */
+.news-slider-wrapper {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 550px;
+    overflow: hidden;
+}
+
+.myNewsSwiper {
+    width: 100%;
+    height: 100%;
+}
+
+.news-row-slide {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 0 20px;
+    gap: 20px;
+}
+
+/* 2. Individual Columns (UPDATED FORM AND COLORS) */
+.news-column {
+    width: 32%;
+    overflow: visible;
+    padding: 20px 20px 50px 20px;
+    height: 500px;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+}
+
+.news-column:hover {
+    opacity: 1;
+    transform: translateY(0) scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    z-index: 20;
+}
+
+/* Base shape for all cards - simple rectangular */
+.news-column {
+    border-radius: 15px;
+}
+
+.column-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.15);
+    padding: 20px 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    height: 100%;
+}
+
+/* 3. Column Colors - Italian Colors */
+/* Deep Red Column */
+.column-yellow { 
+    background-color: #A03131; 
+    color: white; 
+}
+
+/* Italian Green Column */
+.column-blue { 
+    background-color: #2D5016; 
+    color: white; 
+}
+
+/* Gold Column */
+.column-purple { 
+    background-color: #D4AF37; 
+    color: #333; 
+}
+
+/* Olive Column */
+.column-green { 
+    background-color: #6B8E23; 
+    color: white;
+}
+
+/* Tomato Red Column */
+.column-red { 
+    background-color: #C0392B; 
+    color: white;
+}
+
+/* Rustic Orange Column */
+.column-orange { 
+    background-color: #E67E22; 
+    color: white;
+}
+
+/* 4. Article Content Styling */
+.article-date {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+.article-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
+
+.article-snippet {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.read-more-link {
+    color: inherit;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.read-more-link:hover {
+    opacity: 0.8;
+    transform: translateX(5px);
+}
+
+.article-image-container {
+    position: absolute;
+    bottom: -10px;
+    left: 10px;
+    width: 90%;
+    height: 200px;
+    z-index: 5;
+}
+
+.article-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+
+/* --- Category Marquee Strip Styles --- */
+
+.category-marquee-section {
+    position: relative;
+    padding-top: 50px;
+}
+
+.category-marquee-strip {
+    background-color: #FFF8DC; /* Light Italian cream */
+    padding: 15px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.category-marquee-content {
+    display: flex;
+    white-space: nowrap;
+    animation: moveMarquee 40s linear infinite;
+}
+
+.marquee-item-group {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.marquee-item {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0 40px;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+
+/* Icon Styling */
+.marquee-item i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Item Colors (Using themed Italian colors) */
+.marquee-antipasti { color: #333; }
+.marquee-antipasti i { color: #FFA500; }
+
+.marquee-pizza { color: #333; }
+.marquee-pizza i { color: #9E2A2B; }
+
+.marquee-pasta { color: #333; }
+.marquee-pasta i { color: #4AA9E8; }
+
+.marquee-desserts { color: #333; }
+.marquee-desserts i { color: #B29759; }
+
+.marquee-wine { color: #333; }
+.marquee-wine i { color: #6A0DAD; }
+
+/* Bottom Contrasting Strip */
+.marquee-bottom-strip {
+    background-color: #FF4500;
+    height: 15px;
+    width: 100%;
+}
+
+/* --- Instagram Gallery Section Styles --- */
+
+.instagram-section {
+    position: relative;
+    background-color: #fff;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+/* 1. Gallery Slider & Cards */
+.myInstagramSwiper {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.instagram-card-wrapper {
+    padding: 0;
+    display: flex;
+    gap: 40px;
+}
+
+.instagram-card-slide {
+    width: 300px !important;
+    height: 400px;
+}
+
+.instagram-card {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: visible;
+    transition: all 0.3s ease;
+}
+
+/* Background decorative elements for posts - now they ARE the card background */
+.instagram-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    border-radius: 15px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Different colors for each post position */
+.swiper-slide:nth-child(1) .instagram-card::before { background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); }
+.swiper-slide:nth-child(2) .instagram-card::before { background: linear-gradient(135deg, #9E2A2B 0%, #7B1F20 100%); }
+.swiper-slide:nth-child(3) .instagram-card::before { background: linear-gradient(135deg, #4AA9E8 0%, #2E5C8F 100%); }
+.swiper-slide:nth-child(4) .instagram-card::before { background: linear-gradient(135deg, #B29759 0%, #8B7349 100%); }
+.swiper-slide:nth-child(5) .instagram-card::before { background: linear-gradient(135deg, #6AB84A 0%, #4A8B2A 100%); }
+.swiper-slide:nth-child(6) .instagram-card::before { background: linear-gradient(135deg, #B880D4 0%, #8B5FB0 100%); }
+.swiper-slide:nth-child(7) .instagram-card::before { background: linear-gradient(135deg, #DA291C 0%, #A02018 100%); }
+.swiper-slide:nth-child(8) .instagram-card::before { background: linear-gradient(135deg, #FFC300 0%, #D8941F 100%); }
+
+.instagram-card:hover {
+    transform: translateY(-5px);
+}
+
+.instagram-card:hover::before {
+    opacity: 1;
+}
+
+.insta-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    border-radius: 10px;
+}
+
+.instagram-card:hover .insta-img {
+    transform: scale(1.05);
+}
+
+.insta-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 2. Contrasting Bottom Strip */
+.instagram-bottom-strip {
+    background-color: #FF4500;
+    height: 180px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 3. Branding Circle */
+.branding-circle {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%) rotate(-10deg);
+    width: 150px;
+    height: 150px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 5px dashed #333;
+}
+
+.branding-text {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: #333;
+    line-height: 1.2;
+    text-transform: uppercase;
+    transform: rotate(10deg);
+}
+
+/* --- Main Footer Styles --- */
+
+/* 1. Subscription Form Area (The large colored block) */
+.subscribe-area {
+    background-color: #F5F5DC; /* Warm Italian cream */
+    color: #333;
+    padding: 100px 0;
+}
+
+.subscribe-title {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #333;
+}
+
+.subscribe-text {
+    max-width: 600px;
+    margin: 0 auto 30px;
+    color: #333;
+}
+
+.subscribe-form {
+    max-width: 900px;
+}
+
+.subscribe-form .form-control {
+    height: 50px;
+    border-radius: 40px;
+    border: none;
+}
+
+.btn-submit {
+    height: 50px;
+    background-color: #333;
+    color: white;
+    border-radius: 40px;
+    font-weight: bold;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #1a1a1a;
+}
+
+/* 2. Footer Details Area (Darker section) */
+.footer-details-area {
+    background-color: #28242A;
+    color: white;
+}
+
+.footer-heading {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: white;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links a, .contact-info {
+    color: #CCCCCC;
+    text-decoration: none;
+    line-height: 2;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #DA291C;
+}
+
+.contact-info {
+    font-style: normal;
+    margin: 0;
+}
+
+/* Small Subscribe Form (Column 2) */
+.small-subscribe-form {
+    align-items: center;
+}
+
+.small-subscribe-form .form-control {
+    border-radius: 40px 0 0 40px;
+    height: 40px;
+    border: none;
+    background-color: #333;
+    color: white;
+}
+
+.small-subscribe-form .form-control::placeholder {
+    color: #999;
+}
+
+.btn-submit-sm {
+    background-color: #DA291C;
+    color: white;
+    height: 40px;
+    border-radius: 0 40px 40px 0;
+    width: 50px;
+    border: none;
+}
+
+.social-icons .fab {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    color: #CCCCCC;
+}
+
+.social-icons .fab:hover {
+    color: #DA291C;
+}
+
+/* 3. Final Branding Area */
+.footer-branding-area {
+    background-color: #222;
+    color: #999;
+}
+
+.footer-branding-area a {
+    color: #999;
+    text-decoration: underline;
 }
 
 /* --- Mobile Responsive Styles --- */

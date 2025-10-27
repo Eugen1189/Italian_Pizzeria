@@ -167,24 +167,51 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// Recipes section scroll functions
-let currentRecipeIndex = 0;
-
-window.scrollLeftRecipes = function() {
-    const allRecipes = document.querySelectorAll('#recipes-list .recipe-card-slide');
-    if (!allRecipes || allRecipes.length === 0) return;
+// Recipes section Swiper initialization
+document.addEventListener("DOMContentLoaded", function() {
+    const swiperRecipesElement = document.querySelector('.myRecipesSwiper');
     
-    // Move to previous recipe (circular: goes to last recipe if at first)
-    currentRecipeIndex = (currentRecipeIndex - 1 + allRecipes.length) % allRecipes.length;
-    allRecipes[currentRecipeIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-}
+    if (swiperRecipesElement) {
+        const swiperRecipes = new Swiper(".myRecipesSwiper", {
+            slidesPerView: 'auto',
+            spaceBetween: 30,
+            centeredSlides: true,
+            loop: true,
+            speed: 400,
+            navigation: {
+                nextEl: '.recipes-arrow-next',
+                prevEl: '.recipes-arrow-prev',
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 3,
+                    centeredSlides: false,
+                },
+                1200: {
+                    slidesPerView: 4,
+                    centeredSlides: false,
+                }
+            }
+        });
+    }
 
-window.scrollRightRecipes = function() {
-    const allRecipes = document.querySelectorAll('#recipes-list .recipe-card-slide');
-    if (!allRecipes || allRecipes.length === 0) return;
+    // News section - no Swiper needed, just 3 static cards with hover effect
+
+    // Instagram section Swiper initialization
+    const swiperInstagramElement = document.querySelector('.myInstagramSwiper');
     
-    // Move to next recipe (circular: goes to first recipe if at last)
-    currentRecipeIndex = (currentRecipeIndex + 1) % allRecipes.length;
-    allRecipes[currentRecipeIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-}
+    if (swiperInstagramElement) {
+        const swiperInstagram = new Swiper(".myInstagramSwiper", {
+            slidesPerView: 'auto',
+            spaceBetween: 20,
+            loop: true,
+            centeredSlides: false,
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false,
+            },
+            speed: 800,
+        });
+    }
+});
 
