@@ -248,7 +248,7 @@ body {
 /* --- Marquee / Running Strip Styles --- */
 
 .running-strip {
-    background-color: #008C45; /* Italian green */
+    background-color: #2F2B31; /* Dark purple/gray like Brar's */
     position: relative;
     width: 100%;
     height: 30px;
