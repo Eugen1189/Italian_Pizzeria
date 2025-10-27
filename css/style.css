@@ -67,9 +67,9 @@ body {
 /* --- Highlighting Section Animation Styles (UPDATED FOR CORNERS) --- */
 
 .highlight-section {
-    background-color: #FFEDE5; /* Soft peachy pink background */
-    position: relative; /* Crucial: Context for absolute positioning of images */
-    overflow: hidden; /* Hides images when they are outside the viewport */
+    background-color: #FFFFFF; /* Italian white background */
+    position: relative;
+    overflow: hidden;
     min-height: 40vh;
 }
 
@@ -318,19 +318,7 @@ body {
     animation: float 6s ease-in-out infinite;
 }
 
-.swiper-slide::after {
-    content: '';
-    position: absolute;
-    bottom: 20%;
-    right: 10%;
-    width: 180px;
-    height: 180px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(255,255,255,0.4)' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat;
-    background-size: contain;
-    opacity: 0.6;
-    z-index: 1;
-    animation: float 8s ease-in-out infinite reverse;
-}
+/* Small flag icon removed */
 
 @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -339,20 +327,24 @@ body {
 
 /* --- Updated CSS Colors for Italian Flag Theme --- */
 
-/* Italian Flag waving animation for hero slider */
+/* Italian Flag for hero slider */
 .slide-margherita,
 .slide-diavola,
 .slide-formaggi {
-    background: linear-gradient(90deg, 
-        #008C45 0%, #008C45 33.33%, 
-        #FFFFFF 33.33%, #FFFFFF 66.66%, 
-        #CD212A 66.66%, #CD212A 100%);
-    background-size: 300% 100%;
+    background: 
+        linear-gradient(90deg,
+            #008C45 0%, 
+            #008C45 33.33%,
+            #FFFFFF 33.33%,
+            #FFFFFF 66.66%,
+            #CD212A 66.66%,
+            #CD212A 100%
+        );
     position: relative;
     overflow: hidden;
 }
 
-/* Waving animation for Italian flag */
+/* Waving animation effect */
 .slide-margherita::before,
 .slide-diavola::before,
 .slide-formaggi::before {
@@ -362,35 +354,35 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(90deg, 
-        #008C45 0%, #008C45 33.33%, 
-        #FFFFFF 33.33%, #FFFFFF 66.66%, 
-        #CD212A 66.66%, #CD212A 100%);
-    background-size: 300% 100%;
-    animation: waveFlag 3s ease-in-out infinite;
+    background: 
+        linear-gradient(90deg,
+            #008C45 0%, 
+            #008C45 33.33%,
+            #FFFFFF 33.33%,
+            #FFFFFF 66.66%,
+            #CD212A 66.66%,
+            #CD212A 100%
+        );
+    animation: waveItalianFlag 5s ease-in-out infinite;
     z-index: 0;
 }
 
-@keyframes waveFlag {
+@keyframes waveItalianFlag {
     0%, 100% {
-        transform: translateX(0) skewY(0deg);
-        background-position: 0% 0%;
+        transform: skewY(0deg);
     }
     25% {
-        transform: translateX(-2px) skewY(1deg);
-        background-position: 2% 0%;
+        transform: skewY(1deg);
     }
     50% {
-        transform: translateX(0) skewY(0deg);
-        background-position: 0% 0%;
+        transform: skewY(0deg);
     }
     75% {
-        transform: translateX(2px) skewY(-1deg);
-        background-position: -2% 0%;
+        transform: skewY(-1deg);
     }
 }
 
-/* Ensure content is above the animated flag */
+/* Ensure content is above the flag */
 .slide-title,
 .slide-cta,
 .slide-image-container {
@@ -413,8 +405,7 @@ body {
 /* --- Menu Categories Section Styles --- */
 
 .menu-categories-section {
-    background-color: #FFF8F0; /* Warm cream color */
-    /* Set relative positioning if you want to add pseudo-elements */
+    background-color: #008C45; /* Italian green */
     position: relative;
     width: 100%;
     max-width: 100%;
@@ -777,7 +768,7 @@ body {
 /* --- Philosophy Section Styles --- */
 
 .philosophy-section {
-    background-color: #FFF8F0; /* Warm cream background matching menu */
+    background-color: #FFFFFF; /* Italian white */
     padding-top: 80px;
     padding-bottom: 80px;
 }
@@ -906,7 +897,7 @@ body {
 /* --- Recipes Section Styles --- */
 
 .recipes-section {
-    background-color: #fff;
+    background-color: #CD212A; /* Italian red */
     padding-top: 100px;
     padding-bottom: 100px;
 }
@@ -916,13 +907,15 @@ body {
     font-weight: 900;
     text-transform: uppercase;
     line-height: 1.1;
+    color: white; /* White text on red background */
 }
 
 .view-more-btn {
     border-radius: 40px;
-    background-color: #333;
-    border-color: #333;
-    color: white;
+    background-color: white;
+    border: 2px solid white;
+    color: #CD212A;
+    font-weight: bold;
 }
 
 /* 1. Recipe Slider & Cards */
@@ -1113,7 +1106,7 @@ body {
 /* --- News Section Styles --- */
 
 .news-section {
-    background-color: #333;
+    background-color: #008C45; /* Italian green */
     color: white;
     padding-top: 80px;
     padding-bottom: 80px;
@@ -1145,10 +1138,9 @@ body {
     gap: 20px;
 }
 
-/* 2. Individual Columns (UPDATED FORM AND COLORS) */
+/* 2. Individual Columns - Simple Rounded Rectangles */
 .news-column {
     width: 32%;
-    overflow: visible;
     padding: 20px 20px 50px 20px;
     height: 500px;
     position: relative;
@@ -1160,6 +1152,8 @@ body {
     transition: all 0.4s ease;
     opacity: 0;
     transform: translateY(30px) scale(0.9);
+    border-radius: 15px; /* Standard rounded corners */
+    overflow: hidden; /* Ensure content stays within rounded borders */
 }
 
 .news-column:hover {
@@ -1167,11 +1161,6 @@ body {
     transform: translateY(0) scale(1.05);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
     z-index: 20;
-}
-
-/* Base shape for all cards - simple rectangular */
-.news-column {
-    border-radius: 15px;
 }
 
 .column-title {
@@ -1346,7 +1335,7 @@ body {
 
 .instagram-section {
     position: relative;
-    background-color: #fff;
+    background-color: #FFFFFF; /* Italian white */
     padding-top: 100px;
     padding-bottom: 100px;
 }
