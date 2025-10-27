@@ -31,6 +31,37 @@ body {
     font-weight: bold;
 }
 
+/* Running Strip (Banner) */
+.running-strip {
+    background-color: #DA291C;
+    color: white;
+    padding: 8px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.running-text {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.running-text span {
+    margin-right: 20px;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 /* 2. Hero Slider styles */
 .hero-slider {
     width: 100%;
