@@ -91,22 +91,20 @@ body {
     z-index: 1; 
     opacity: 0; 
     
-    /* Transition for smooth movement, opacity, and rotation */
-    transition: opacity 0.5s ease, transform 0.5s ease, top 0.5s ease, left 0.5s ease, right 0.5s ease, bottom 0.5s ease;
+    /* Simple fade-in transition only */
+    transition: opacity 0.6s ease;
 }
 
-/* 1. TOP-LEFT CORNER (Start off-screen, rotated) */
+/* 1. TOP-LEFT CORNER (Simple fade-in) */
 .highlight-image-left {
-    top: -150px; /* Start position: above the viewport */
-    left: -150px; /* Start position: left of the viewport */
-    transform: rotate(-45deg); /* Start rotated */
+    top: 5%;
+    left: 10%;
 }
 
-/* 2. BOTTOM-RIGHT CORNER (Start off-screen, rotated) */
+/* 2. BOTTOM-RIGHT CORNER (Simple fade-in) */
 .highlight-image-right {
-    bottom: -150px; /* Start position: below the viewport */
-    right: -150px; /* Start position: right of the viewport */
-    transform: rotate(45deg); /* Start rotated */
+    bottom: 5%;
+    right: 10%;
 }
 
 .animated-highlight-img {
@@ -117,22 +115,16 @@ body {
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4));
 }
 
-/* --- ACTIVE STATE: Images appear in corners, rotation resets --- */
+/* --- ACTIVE STATE: Simple fade-in --- */
 
-/* Active left image (Moves to Top-Left Visible Corner) */
+/* Active left image (Simple fade-in) */
 .highlight-image-left.active {
     opacity: 1;
-    top: 5%; /* End position: 5% from the top */
-    left: 10%; /* End position: 10% from the left */
-    transform: rotate(0deg); /* Rotation resets to zero */
 }
 
-/* Active right image (Moves to Bottom-Right Visible Corner) */
+/* Active right image (Simple fade-in) */
 .highlight-image-right.active {
     opacity: 1;
-    bottom: 5%; /* End position: 5% from the bottom */
-    right: 10%; /* End position: 10% from the right */
-    transform: rotate(0deg); /* Rotation resets to zero */
 }
 
 /* Star background for highlight images */
@@ -347,32 +339,63 @@ body {
 
 /* --- Updated CSS Colors for Italian Flag Theme --- */
 
-/* Base Italian Red - for Margherita */
-.slide-margherita {
-    background-color: #A03131; /* Deep, rich red (Tomato) */
-}
-
-/* Base Italian Green - for other types (e.g., Vegetarian, Pesto) */
-.slide-diavola {
-    background-color: #007348; /* Dark, elegant green (Olive/Basil) */
-}
-
-/* Base Italian Off-White/Cream - for White Pizzas (like Quattro Formaggi) */
+/* Italian Flag waving animation for hero slider */
+.slide-margherita,
+.slide-diavola,
 .slide-formaggi {
-    /* Use a light, creamy color instead of the previous golden one */
-    background-color: #F7EFE5; /* Creamy White/Off-White (Dough/Mozzarella) */
+    background: linear-gradient(90deg, 
+        #008C45 0%, #008C45 33.33%, 
+        #FFFFFF 33.33%, #FFFFFF 66.66%, 
+        #CD212A 66.66%, #CD212A 100%);
+    background-size: 300% 100%;
+    position: relative;
+    overflow: hidden;
 }
 
-/* If you need to make text visible on light backgrounds (like the new .slide-formaggi) */
-.slide-formaggi .slide-title, 
-.slide-formaggi .slide-cta button {
-    color: #333 !important; /* Dark text on light background */
+/* Waving animation for Italian flag */
+.slide-margherita::before,
+.slide-diavola::before,
+.slide-formaggi::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        #008C45 0%, #008C45 33.33%, 
+        #FFFFFF 33.33%, #FFFFFF 66.66%, 
+        #CD212A 66.66%, #CD212A 100%);
+    background-size: 300% 100%;
+    animation: waveFlag 3s ease-in-out infinite;
+    z-index: 0;
 }
 
-/* Ensure the button text is also visible on the light background */
-.slide-formaggi .slide-cta button {
-    border-color: #333 !important; 
-    background-color: white;
+@keyframes waveFlag {
+    0%, 100% {
+        transform: translateX(0) skewY(0deg);
+        background-position: 0% 0%;
+    }
+    25% {
+        transform: translateX(-2px) skewY(1deg);
+        background-position: 2% 0%;
+    }
+    50% {
+        transform: translateX(0) skewY(0deg);
+        background-position: 0% 0%;
+    }
+    75% {
+        transform: translateX(2px) skewY(-1deg);
+        background-position: -2% 0%;
+    }
+}
+
+/* Ensure content is above the animated flag */
+.slide-title,
+.slide-cta,
+.slide-image-container {
+    position: relative;
+    z-index: 10;
 }
 
 /* Navigation button styles for hero slider */
@@ -1907,13 +1930,13 @@ body {
         height: 120px;
     }
     
-    .highlight-image-left.active {
-        top: 8%;
+    .highlight-image-left {
+        top: 5%;
         left: 5%;
     }
     
-    .highlight-image-right.active {
-        bottom: 8%;
+    .highlight-image-right {
+        bottom: 5%;
         right: 5%;
     }
     
