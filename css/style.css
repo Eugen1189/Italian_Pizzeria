@@ -460,11 +460,16 @@ body {
 .menu-categories-section {
     background-color: #008C45; /* Green background */
     position: relative;
-    width: 100vw;
-    max-width: 100vw;
+    width: 100%;
     min-height: 500px;
     margin: 0;
     padding: 60px 0;
+}
+
+.menu-categories-section .container {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 #popular-scroll {
@@ -473,6 +478,7 @@ body {
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
+    padding: 0 10px;
 }
 
 #popular-scroll::-webkit-scrollbar {
@@ -1589,6 +1595,22 @@ body {
         padding-top: 3px;
     }
     
+    /* Instagram section */
+    .instagram-section {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+    
+    .instagram-card-slide {
+        width: 250px !important;
+        height: 300px;
+    }
+    
+    .myInstagramSwiper {
+        padding-left: 3vw;
+        padding-right: 3vw;
+    }
+    
     /* Highlight section */
     .highlight-section {
         min-height: 35vh;
@@ -1620,6 +1642,9 @@ body {
     .menu-section-title {
         font-size: 1.8rem;
         padding-top: 10px;
+        padding: 0 15px;
+        margin-bottom: 25px;
+        text-align: center;
     }
     
     .popular-item {
@@ -1637,8 +1662,14 @@ body {
     }
     
     .decorative-bg {
-        width: 200px;
-        height: 200px;
+        width: 180px;
+        height: 180px;
+    }
+    
+    /* Menu item cards */
+    .menu-item-img {
+        max-width: 85%;
+        height: 180px;
     }
     
     .star-red,
@@ -1674,10 +1705,33 @@ body {
         padding: 8px 20px;
     }
     
+    .recipes-section {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+    
+    .recipe-card-slide {
+        width: 260px !important;
+        height: 380px;
+    }
+    
     /* Menu categories section */
     .menu-categories-section {
         min-height: 400px;
         padding: 30px 0;
+    }
+    
+    /* Footer */
+    .subscribe-area {
+        padding: 60px 0;
+    }
+    
+    .subscribe-title {
+        font-size: 2rem;
+    }
+    
+    .footer-details-area {
+        padding: 40px 0;
     }
     
     /* Philosophy section */
@@ -1698,28 +1752,46 @@ body {
     
     .philosophy-left,
     .philosophy-right {
-        padding: 0 15px;
+        padding: 0 15px !important;
         margin-bottom: 40px;
     }
     
     .philosophy-left {
-        padding-right: 15px;
+        padding-right: 15px !important;
+        padding-left: 15px !important;
     }
     
     .philosophy-right {
-        padding-left: 15px;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
         text-align: center;
     }
     
     .philosophy-text-content {
         max-width: 100%;
+        text-align: center;
+        padding: 0 20px;
+    }
+    
+    .philosophy-text-content .lead {
         text-align: left;
+        font-size: 1.1rem;
     }
     
     .philosophy-text-content .d-flex {
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .philosophy-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .philosophy-text-content .d-flex .text-muted {
+        text-align: center;
     }
     
     .philosophy-badge {
@@ -1786,6 +1858,29 @@ body {
     
     .running-text {
         font-size: 0.65rem;
+    }
+    
+    /* Instagram section - small mobile */
+    .instagram-section {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    
+    .instagram-card-slide {
+        width: 220px !important;
+        height: 280px;
+    }
+    
+    .myInstagramSwiper {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    
+    .instagram-card::before {
+        width: 60px !important;
+        height: 60px !important;
     }
     
     /* Highlight section */
@@ -1884,10 +1979,26 @@ body {
     .philosophy-title {
         font-size: 2rem;
         margin-bottom: 20px;
+        text-align: center;
     }
     
     .philosophy-image-shelf img {
         border-radius: 5px;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .philosophy-left,
+    .philosophy-right {
+        padding: 0 10px !important;
+    }
+    
+    .philosophy-text-content {
+        padding: 0 15px;
+    }
+    
+    .philosophy-text-content .lead {
+        font-size: 1rem;
     }
     
     .philosophy-badge {
@@ -1956,6 +2067,33 @@ body {
     .recipe-btn {
         font-size: 0.75rem;
         padding: 5px 10px;
+    }
+    
+    /* Footer for small mobile */
+    .subscribe-area {
+        padding: 40px 0;
+    }
+    
+    .subscribe-title {
+        font-size: 1.5rem;
+    }
+    
+    .subscribe-text {
+        font-size: 0.9rem;
+    }
+    
+    .footer-details-area {
+        padding: 30px 0;
+    }
+    
+    .footer-heading {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .footer-links a,
+    .contact-info {
+        font-size: 0.85rem;
     }
 }
 

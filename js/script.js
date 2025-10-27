@@ -186,12 +186,22 @@ document.addEventListener("DOMContentLoaded", function() {
             speed: 800, // Speed of transition
             
             breakpoints: {
+                // Mobile devices (default)
+                320: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    centeredSlides: true,
+                },
+                // Tablets
                 768: {
-                    slidesPerView: 3,
+                    slidesPerView: 2,
+                    spaceBetween: 30,
                     centeredSlides: false,
                 },
+                // Desktop
                 1200: {
-                    slidesPerView: 4,
+                    slidesPerView: 3,
+                    spaceBetween: 40,
                     centeredSlides: false,
                 }
             }
@@ -212,6 +222,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 disableOnInteraction: false,
             },
             speed: 800,
+            
+            breakpoints: {
+                // Mobile devices
+                320: {
+                    slidesPerView: 1,
+                    spaceBetween: 15,
+                    centeredSlides: true,
+                },
+                // Tablets
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                    centeredSlides: false,
+                },
+                // Desktop
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 25,
+                    centeredSlides: false,
+                }
+            }
         });
     }
 });
