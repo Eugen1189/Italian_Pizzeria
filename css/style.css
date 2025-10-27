@@ -31,29 +31,181 @@ body {
     font-weight: bold;
 }
 
-/* Running Strip (Banner) */
-.running-strip {
-    background-color: #DA291C;
-    color: white;
-    padding: 8px 0;
-    overflow: hidden;
-    white-space: nowrap;
+/* --- Dynamic Highlighting Section Styles --- */
+
+/* --- Highlighting Section Animation Styles (UPDATED FOR CORNERS) --- */
+
+.highlight-section {
+    background-color: #FFEDE5; /* Soft peachy pink background */
+    position: relative; /* Crucial: Context for absolute positioning of images */
+    overflow: hidden; /* Hides images when they are outside the viewport */
+    min-height: 40vh;
+}
+
+.highlight-content {
+    /* Ensure all words are visible but stacked, and not taking up full width */
+    max-width: 90%; 
+    margin: 0 auto;
+    line-height: 1.2;
+    flex: 1;
     position: relative;
+    z-index: 5;
+}
+
+.highlight-image-left,
+.highlight-image-right {
+    position: absolute;
+    width: 300px; 
+    height: 300px;
+    z-index: 1; 
+    opacity: 0; 
+    
+    /* Transition for smooth movement, opacity, and rotation */
+    transition: opacity 0.5s ease, transform 0.5s ease, top 0.5s ease, left 0.5s ease, right 0.5s ease, bottom 0.5s ease;
+}
+
+/* 1. TOP-LEFT CORNER (Start off-screen, rotated) */
+.highlight-image-left {
+    top: -150px; /* Start position: above the viewport */
+    left: -150px; /* Start position: left of the viewport */
+    transform: rotate(-45deg); /* Start rotated */
+}
+
+/* 2. BOTTOM-RIGHT CORNER (Start off-screen, rotated) */
+.highlight-image-right {
+    bottom: -150px; /* Start position: below the viewport */
+    right: -150px; /* Start position: right of the viewport */
+    transform: rotate(45deg); /* Start rotated */
+}
+
+.animated-highlight-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Optional: Add a shadow to make them stand out */
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4));
+}
+
+/* --- ACTIVE STATE: Images appear in corners, rotation resets --- */
+
+/* Active left image (Moves to Top-Left Visible Corner) */
+.highlight-image-left.active {
+    opacity: 1;
+    top: 5%; /* End position: 5% from the top */
+    left: 10%; /* End position: 10% from the left */
+    transform: rotate(0deg); /* Rotation resets to zero */
+}
+
+/* Active right image (Moves to Bottom-Right Visible Corner) */
+.highlight-image-right.active {
+    opacity: 1;
+    bottom: 5%; /* End position: 5% from the bottom */
+    right: 10%; /* End position: 10% from the right */
+    transform: rotate(0deg); /* Rotation resets to zero */
+}
+
+/* Star background for highlight images */
+.highlight-star-left,
+.highlight-star-right {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    z-index: 0;
+    opacity: 0.6;
+    animation: starGlow 2s ease-in-out infinite;
+}
+
+.highlight-star-left {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(218,41,28,0.5)' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
+}
+
+.highlight-star-right {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(0,115,72,0.5)' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
+}
+
+.highlight-image-left img,
+.highlight-image-right img {
+    position: relative;
+    z-index: 1;
+}
+
+.highlight-word {
+    /* Base style for all words */
+    font-size: 5vw; /* Large size, responsive */
+    font-weight: 900; /* Extra bold */
+    color: #333; /* Default black color */
+    margin: 0;
+    
+    /* Ensure smooth color transition */
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+/* Colorful hover effects for each word */
+.highlight-word:hover {
+    transform: scale(1.05);
+}
+
+/* Different colors for each word on hover */
+.highlight-word[data-word="0"]:hover {
+    color: #DA291C; /* Italian Red */
+}
+
+.highlight-word[data-word="1"]:hover {
+    color: #007348; /* Italian Green */
+}
+
+.highlight-word[data-word="2"]:hover {
+    color: #FF8C00; /* Orange */
+}
+
+.highlight-word[data-word="3"]:hover {
+    color: #800080; /* Purple */
+}
+
+.highlight-word[data-word="4"]:hover {
+    color: #0073FF; /* Blue */
+}
+
+.highlight-word[data-word="5"]:hover {
+    color: #8B734B; /* Gold */
+}
+
+/* --- Marquee / Running Strip Styles --- */
+
+.running-strip {
+    /* Brar's color is a dark purple/gray */
+    background-color: #2F2B31; 
+    
+    /* Position the strip between slider and menu */
+    position: relative;
+    width: 100%;
+    
+    height: 30px; /* Slim height */
+    overflow: hidden; /* Crucial: hides the text outside the strip */
+    white-space: nowrap; /* Prevents text from wrapping */
 }
 
 .running-text {
     display: inline-block;
-    animation: marquee 20s linear infinite;
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 1px;
+    padding-top: 5px; /* Adjust vertical alignment */
+    color: #F7EFE5; /* Light text color */
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    
+    /* Start the animation */
+    animation: moveMarquee 25s linear infinite; /* 25 seconds for a full cycle */
 }
 
+/* Ensure the text copies are side-by-side */
 .running-text span {
     margin-right: 20px;
 }
 
-@keyframes marquee {
+@keyframes moveMarquee {
     0% {
         transform: translateX(0);
     }
@@ -207,7 +359,7 @@ body {
 /* --- Menu Categories Section Styles --- */
 
 .menu-categories-section {
-    background-color: #f8f8f8; /* Light background for contrast with the hero slider */
+    background-color: #FFF8F0; /* Warm cream color */
     /* Set relative positioning if you want to add pseudo-elements */
     position: relative;
     width: 100%;
@@ -284,6 +436,12 @@ body {
 
 .category-content.active {
     display: block; /* Show active content */
+}
+
+/* Warm background for popular menu section */
+#most-popular {
+    background-color: #FFF8F0; /* Warm cream background */
+    padding: 30px 0;
 }
 
 /* --- Thematic Background Images for Menu Sections --- */
@@ -562,3 +720,767 @@ body {
     transform: translateY(0);
 }
 
+/* --- Philosophy Section Styles --- */
+
+.philosophy-section {
+    background-color: #FFF8F0; /* Warm cream background matching menu */
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.philosophy-title {
+    font-family: serif; /* Elegant font for the title */
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 0.9;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.philosophy-title .text-muted {
+    color: #888;
+    font-weight: 300;
+}
+
+/* 1. Left Column (Image Shelf) */
+.philosophy-left {
+    position: relative;
+    padding-right: 50px;
+    opacity: 0;
+    transform: translateX(-50px);
+}
+
+.philosophy-image-shelf {
+    position: relative;
+    margin-top: 40px;
+    /* Create a visual depth by adjusting alignment */
+    transform: translateX(-5%); 
+}
+
+.philosophy-image-shelf img {
+    /* Assuming a wide, slightly curved image of products/ingredients */
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+/* 2. Small Decorative Badges (Italian Style) */
+.philosophy-badge {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: #DA291C; /* Italian Red background */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.7rem;
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.badge-left {
+    top: 5%;
+    left: 0;
+    transform: rotate(-15deg);
+}
+
+.badge-right {
+    bottom: 5%;
+    right: 15%;
+    transform: rotate(10deg);
+}
+
+.badge-text {
+    font-size: 0.65rem;
+    line-height: 1.2;
+}
+
+/* 3. Right Column (Text Content) */
+.philosophy-right {
+    padding-left: 50px;
+    opacity: 0;
+    transform: translateX(50px);
+}
+
+.philosophy-text-content {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.philosophy-btn {
+    background-color: #DA291C;
+    border-color: #DA291C;
+    font-weight: bold;
+    border-radius: 40px;
+    padding: 12px 35px;
+}
+
+.philosophy-btn:hover {
+    background-color: #C02623;
+    border-color: #C02623;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- Recipes Section Styles --- */
+
+.recipes-section {
+    background-color: #fff;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.recipes-title {
+    font-family: sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.view-more-btn {
+    border-radius: 40px;
+    background-color: #333;
+    border-color: #333;
+    color: white;
+}
+
+/* 1. Recipe Slider & Cards */
+.recipes-scroll-container {
+    position: relative;
+    overflow: hidden;
+}
+
+#recipes-list {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    padding: 0 5vw;
+}
+
+#recipes-list::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.recipe-card-slide {
+    width: 280px !important;
+    height: 400px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: rotate(1deg); 
+    transition: transform 0.6s ease, box-shadow 0.3s ease;
+}
+
+.recipe-card-slide:hover {
+    transform: rotate(0deg) scale(1.03);
+}
+
+/* Dynamic Card Colors - Warm Italian-inspired palette */
+.card-color-red { background: linear-gradient(135deg, #C23B3B 0%, #8B1A1A 100%); }
+.card-color-blue { background: linear-gradient(135deg, #4A90E2 0%, #2E5C8F 100%); }
+.card-color-yellow { background: linear-gradient(135deg, #F4B942 0%, #D8941F 100%); }
+.card-color-purple { background: linear-gradient(135deg, #B880D4 0%, #8B5FB0 100%); }
+.card-color-green { background: linear-gradient(135deg, #6AB84A 0%, #4A8B2A 100%); }
+.card-color-orange { background: linear-gradient(135deg, #FF8C42 0%, #CC5A1A 100%); }
+
+.recipe-card {
+    color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-img {
+    height: 50%;
+    width: 100%;
+    object-fit: cover;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+}
+
+.recipe-content {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-time {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.recipe-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.recipe-name {
+    font-weight: 900;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    margin-bottom: auto;
+}
+
+.recipe-btn {
+    background-color: white;
+    color: #333;
+    border: none;
+    border-radius: 40px;
+    padding: 8px 15px;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.recipe-btn:hover {
+    background-color: #333;
+    color: white;
+}
+
+/* 2. Navigation Buttons */
+.recipes-scroll-container .btn {
+    transition: all 0.3s ease;
+}
+
+.recipes-scroll-container .btn:hover {
+    background-color: #DA291C !important;
+    border-color: #DA291C !important;
+    color: white !important;
+}
+
+/* --- Mobile Responsive Styles --- */
+
+/* Tablets and below (max-width: 992px) */
+@media (max-width: 992px) {
+    /* Hero slider adjustments */
+    .slide-title {
+        font-size: 3rem;
+    }
+    
+    .slide-image {
+        max-width: 60%;
+    }
+    
+    /* Running strip */
+    .running-text {
+        font-size: 0.8rem;
+    }
+    
+    /* Highlight section */
+    .highlight-word {
+        font-size: 3.5vw;
+    }
+    
+    .highlight-image-left,
+    .highlight-image-right {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .highlight-star-left,
+    .highlight-star-right {
+        width: 280px;
+        height: 280px;
+    }
+    
+    /* Menu section */
+    .popular-item {
+        min-width: 200px;
+        height: 280px;
+    }
+    
+    #popular-scroll {
+        gap: 3rem !important;
+    }
+    
+    /* Philosophy section */
+    .philosophy-title {
+        font-size: 3.5rem;
+    }
+    
+    .philosophy-image-shelf {
+        transform: translateX(0);
+    }
+    
+    .philosophy-left,
+    .philosophy-right {
+        padding: 0 20px;
+    }
+}
+
+/* Mobile devices (max-width: 768px) */
+@media (max-width: 768px) {
+    /* Header */
+    .logo-text {
+        font-size: 1.2rem;
+    }
+    
+    .nav-link {
+        margin: 0 8px;
+        font-size: 0.9rem;
+    }
+    
+    .header-actions {
+        gap: 5px;
+    }
+    
+    .btn-outline-light,
+    .btn-primary {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    /* Hero slider */
+    .slide-title {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    
+    .slide-image {
+        max-width: 70%;
+        margin: 20px 0;
+    }
+    
+    .slide-cta button {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+    
+    /* Navigation buttons for hero */
+    .swiper.mySwiper .swiper-button-next,
+    .swiper.mySwiper .swiper-button-prev {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    /* Running strip */
+    .running-strip {
+        height: 25px;
+    }
+    
+    .running-text {
+        font-size: 0.7rem;
+        padding-top: 3px;
+    }
+    
+    /* Highlight section */
+    .highlight-section {
+        min-height: 35vh;
+        padding: 40px 10px;
+    }
+    
+    .highlight-content {
+        max-width: 100%;
+    }
+    
+    .highlight-word {
+        font-size: 3vw;
+        line-height: 1.5;
+    }
+    
+    .highlight-image-left,
+    .highlight-image-right {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .highlight-star-left,
+    .highlight-star-right {
+        width: 200px;
+        height: 200px;
+    }
+    
+    /* Menu section */
+    .menu-section-title {
+        font-size: 1.8rem;
+        padding-top: 10px;
+    }
+    
+    .popular-item {
+        min-width: 120px;
+        height: 150px;
+    }
+    
+    #popular-scroll {
+        gap: 2rem !important;
+        padding: 0 20px;
+    }
+    
+    .popular-item-wrapper {
+        min-width: 120px;
+    }
+    
+    .decorative-bg {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .star-red,
+    .star-green,
+    .star-gold,
+    .star-orange,
+    .star-purple,
+    .star-blue,
+    .star-pink {
+        width: 200px;
+        height: 200px;
+    }
+    
+    /* Increase opacity for better visibility on mobile */
+    .popular-item-wrapper .decorative-bg {
+        opacity: 0.7;
+    }
+    
+    /* Make active star more visible on mobile */
+    .popular-item-wrapper.active .decorative-bg {
+        opacity: 1 !important;
+    }
+    
+    /* Menu buttons */
+    #most-popular .btn-outline-danger {
+        font-size: 0.9rem;
+        padding: 8px 20px;
+    }
+    
+    /* Menu categories section */
+    .menu-categories-section {
+        min-height: 400px;
+        padding: 30px 0;
+    }
+    
+    /* Philosophy section */
+    .philosophy-section {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    
+    .philosophy-title {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+    }
+    
+    .philosophy-image-shelf {
+        transform: translateX(0);
+        margin-top: 20px;
+    }
+    
+    .philosophy-left,
+    .philosophy-right {
+        padding: 0 15px;
+        margin-bottom: 40px;
+    }
+    
+    .philosophy-left {
+        padding-right: 15px;
+    }
+    
+    .philosophy-right {
+        padding-left: 15px;
+        text-align: center;
+    }
+    
+    .philosophy-text-content {
+        max-width: 100%;
+        text-align: left;
+    }
+    
+    .philosophy-text-content .d-flex {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .philosophy-badge {
+        width: 80px;
+        height: 80px;
+        font-size: 0.6rem;
+    }
+    
+    .badge-text {
+        font-size: 0.55rem;
+    }
+}
+
+/* Small mobile devices (max-width: 576px) */
+@media (max-width: 576px) {
+    /* Header */
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    
+    .header-actions {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .btn-outline-light,
+    .btn-primary {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+    
+    /* Hide navigation arrows on small screens */
+    .nav-link {
+        display: none;
+    }
+    
+    /* Hero slider */
+    .slide-title {
+        font-size: 1.5rem;
+    }
+    
+    .slide-image {
+        max-width: 80%;
+        margin: 15px 0;
+    }
+    
+    .slide-image-container {
+        width: 50vh;
+        height: 50vh;
+    }
+    
+    /* Navigation buttons for hero */
+    .swiper.mySwiper .swiper-button-next,
+    .swiper.mySwiper .swiper-button-prev {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+    
+    /* Running strip */
+    .running-strip {
+        height: 22px;
+    }
+    
+    .running-text {
+        font-size: 0.65rem;
+    }
+    
+    /* Highlight section */
+    .highlight-section {
+        min-height: 30vh;
+        padding: 30px 5px;
+    }
+    
+    .highlight-word {
+        font-size: 4vw;
+        margin: 5px 0;
+    }
+    
+    .highlight-image-left,
+    .highlight-image-right {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .highlight-image-left.active {
+        top: 8%;
+        left: 5%;
+    }
+    
+    .highlight-image-right.active {
+        bottom: 8%;
+        right: 5%;
+    }
+    
+    /* Menu section */
+    .menu-section-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .popular-item {
+        min-width: 100px;
+        height: 130px;
+    }
+    
+    #popular-scroll {
+        gap: 1.5rem !important;
+        padding: 0 10px;
+    }
+    
+    .popular-item-wrapper {
+        min-width: 100px;
+    }
+    
+    .decorative-bg {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .star-red,
+    .star-green,
+    .star-gold,
+    .star-orange,
+    .star-purple,
+    .star-blue,
+    .star-pink {
+        width: 180px;
+        height: 180px;
+    }
+    
+    /* Even higher opacity for small mobile */
+    .popular-item-wrapper .decorative-bg {
+        opacity: 0.8;
+    }
+    
+    /* Make active star more visible on small mobile */
+    .popular-item-wrapper.active .decorative-bg {
+        opacity: 1 !important;
+    }
+    
+    /* Menu buttons */
+    #most-popular .btn-outline-danger {
+        font-size: 0.8rem;
+        padding: 6px 15px;
+        margin: 5px;
+    }
+    
+    /* Philosophy section */
+    .philosophy-section {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    
+    .philosophy-title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .philosophy-image-shelf img {
+        border-radius: 5px;
+    }
+    
+    .philosophy-badge {
+        width: 70px;
+        height: 70px;
+        font-size: 0.5rem;
+    }
+    
+    .badge-text {
+        font-size: 0.5rem;
+    }
+    
+    .philosophy-btn {
+        padding: 10px 25px;
+        font-size: 0.9rem;
+    }
+    
+    .philosophy-text-content .lead {
+        font-size: 1rem;
+    }
+    
+    /* Recipes section */
+    .recipes-section {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+    
+    .recipes-title {
+        font-size: 2.5rem;
+    }
+    
+    .recipe-card-slide {
+        width: 220px !important;
+        height: 340px;
+    }
+    
+    .recipe-name {
+        font-size: 1.1rem;
+    }
+    
+    .recipe-btn {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+    
+    /* Recipes section for small mobile (576px) */
+    .recipes-section {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    
+    .recipes-title {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+    
+    .recipe-card-slide {
+        width: 180px !important;
+        height: 300px;
+    }
+    
+    .recipe-name {
+        font-size: 0.95rem;
+    }
+    
+    .recipe-btn {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero-slider {
+        height: 100vh;
+    }
+    
+    .highlight-section {
+        min-height: 25vh;
+    }
+    
+    .menu-categories-section {
+        min-height: 350px;
+    }
+    
+    .philosophy-section {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    
+    .philosophy-title {
+        font-size: 2rem;
+    }
+}
