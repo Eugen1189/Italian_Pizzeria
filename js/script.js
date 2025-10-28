@@ -1,3 +1,4 @@
+
 let currentActiveDish = 0;
 
 // Приховуємо попередження Swiper про loop
@@ -45,21 +46,8 @@ document.addEventListener("DOMContentLoaded", function() {
             loop: false,
             autoHeight: true,
             speed: 500,
-            
-            // --- КЛЮЧОВІ НАЛАШТУВАННЯ ДЛЯ СВАЙПУ ---
-            // КРИТИЧНО: Переконайтеся, що ці властивості встановлені на 'true'
-            allowTouchMove: true,
-            simulateTouch: true,
-            
-            // Якщо свайп блокується, спробуйте збільшити чутливість
-            touchRatio: 1.5, // Збільшує чутливість дотику
-            touchAngle: 45, // Дозволяє більш діагональний свайп
-            
-            // Додаткові налаштування
-            touchReleaseOnEdges: true,
-            grabCursor: true,
-            
-            // Збільште простір, щоб страви не торкалися одна одної
+            allowTouchMove: true, 
+            // Збільшуємо простір, щоб страви не торкалися одна одної
             spaceBetween: 50, // Збільшено до 50px
             breakpoints: {
                 320: {
@@ -77,134 +65,86 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Initialize Dish Selection with Enhanced Touch Support
-    const allDishes = document.querySelectorAll('.popular-item-wrapper');
-    const scrollContainer = document.getElementById('popular-scroll');
+    // Initialize Mobile Menu Swiper (тільки для мобільних)
+    let mobileMenuSwiper = null;
     
-    // Глобальні змінні для свайпу
-    let touchStartX = 0;
-    let touchEndX = 0;
-    let isScrolling = false;
-    let touchStartTime = 0;
-    let lastSwipeTime = 0;
-    
-    // Налаштування touch events для контейнера прокрутки
-    if (scrollContainer) {
-        scrollContainer.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartTime = Date.now();
-            isScrolling = false;
-        }, { passive: true });
-        
-        scrollContainer.addEventListener('touchmove', function(e) {
-            isScrolling = true;
-        }, { passive: true });
-        
-        scrollContainer.addEventListener('touchend', function(e) {
-            if (!isScrolling) {
-                touchStartX = 0;
-                touchEndX = 0;
-                return;
-            }
-            
-            touchEndX = e.changedTouches[0].screenX;
-            const touchDuration = Date.now() - touchStartTime;
-            
-            handleSwipe(touchDuration);
-        }, { passive: true });
-        
-        function handleSwipe(duration) {
-            const swipeThreshold = 30; // Зменшено поріг для більш чутливого свайпу
-            const diff = touchStartX - touchEndX;
-            const absDiff = Math.abs(diff);
-            const swipeSpeed = absDiff / duration; // Швидкість свайпу (px/ms)
-            
-            // Перевіряємо чи це був свайп (достатня відстань або швидкість)
-            if (absDiff > swipeThreshold || (absDiff > 15 && swipeSpeed > 0.2)) {
-                // Знаходимо поточну позицію прокрутки
-                const scrollLeft = scrollContainer.scrollLeft;
-                const scrollWidth = scrollContainer.scrollWidth;
-                const containerWidth = scrollContainer.clientWidth;
-                
-                // Знаходимо найближчий елемент до центру екрана
-                const centerX = containerWidth / 2;
-                let closestIndex = 0;
-                let minDistance = Infinity;
-                
-                allDishes.forEach((dish, index) => {
-                    const rect = dish.getBoundingClientRect();
-                    const dishCenterX = rect.left + rect.width / 2;
-                    const distance = Math.abs(centerX - dishCenterX);
-                    
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        closestIndex = index;
+    function initMobileMenuSwiper() {
+        const mobileMenuSwiperElement = document.querySelector(".mobileMenuSwiper");
+        if (mobileMenuSwiperElement && window.innerWidth <= 768 && !mobileMenuSwiper) {
+            mobileMenuSwiper = new Swiper(".mobileMenuSwiper", {
+                direction: "horizontal",
+                loop: true,
+                slidesPerView: 1,
+                centeredSlides: true,
+                spaceBetween: 0,
+                speed: 600,
+                allowTouchMove: true,
+                simulateTouch: true,
+                grabCursor: true,
+                touchRatio: 1,
+                touchAngle: 45,
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                },
+                on: {
+                    slideChange: function() {
+                        // Оновлюємо active клас для анімацій
+                        const slides = this.slides;
+                        slides.forEach((slide, index) => {
+                            const wrapper = slide.querySelector('.popular-item-wrapper');
+                            if (wrapper) {
+                                wrapper.classList.remove('active');
+                                if (index === this.activeIndex) {
+                                    wrapper.classList.add('active');
+                                }
+                            }
+                        });
                     }
-                });
-                
-                // Прокручуємо до наступної/попередньої страви та робимо її активною
-                if (diff > 0) {
-                    // Swipe left - переходимо до наступної страви
-                    const nextIndex = Math.min(closestIndex + 1, allDishes.length - 1);
-                    setActiveDish(nextIndex);
-                    setTimeout(() => {
-                        allDishes[nextIndex].scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'nearest', 
-                            inline: 'center' 
-                        });
-                    }, 50);
-                } else {
-                    // Swipe right - переходимо до попередньої страви
-                    const prevIndex = Math.max(closestIndex - 1, 0);
-                    setActiveDish(prevIndex);
-                    setTimeout(() => {
-                        allDishes[prevIndex].scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'nearest', 
-                            inline: 'center' 
-                        });
-                    }, 50);
                 }
-                
-                // Скидаємо змінні
-                touchStartX = 0;
-                touchEndX = 0;
-                isScrolling = false;
-                lastSwipeTime = Date.now();
-            }
+            });
         }
     }
     
-    allDishes.forEach((dish, index) => {
-        // Click handler - спрацьовує тільки якщо це не був свайп
-        dish.addEventListener('click', function(e) {
-            const timeSinceSwipe = Date.now() - lastSwipeTime;
-            // Якщо пройшло менше 300ms після свайпу - ігноруємо клік
-            if (timeSinceSwipe > 300) {
-                setActiveDish(index);
-                dish.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'nearest', 
-                    inline: 'center' 
-                });
+    // Ініціалізуємо при завантаженні
+    initMobileMenuSwiper();
+    
+    // Ініціалізуємо при зміні розміру екрана (опціонально)
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            if (window.innerWidth <= 768 && !mobileMenuSwiper) {
+                initMobileMenuSwiper();
+            } else if (window.innerWidth > 768 && mobileMenuSwiper) {
+                mobileMenuSwiper.destroy(true, true);
+                mobileMenuSwiper = null;
             }
+        }, 250);
+    });
+
+    // Initialize Dish Selection (для desktop версії)
+    const allDishes = document.querySelectorAll('.desktop-menu-scroll .popular-item-wrapper');
+    
+    allDishes.forEach((dish, index) => {
+        dish.addEventListener('click', () => {
+            setActiveDish(index);
         });
         
         // Для мобільних: запускаємо анімацію при торканні
-        dish.addEventListener('touchstart', function(e) {
-            e.stopPropagation(); // Зупиняємо поширення події
+        dish.addEventListener('touchstart', function() {
             const decorativeBg = dish.querySelector('.decorative-bg');
             if (decorativeBg) {
                 decorativeBg.style.animation = 'starGlowMobile 1.2s ease-in-out infinite';
             }
-        }, { passive: true });
+        });
     });
     
     if (allDishes.length > 0) {
         currentActiveDish = 1;
         setActiveDish(1);
         
+        const scrollContainer = document.getElementById('popular-scroll');
         if (scrollContainer && allDishes[1]) {
             setTimeout(() => {
                 allDishes[1].scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
@@ -277,9 +217,9 @@ document.addEventListener("DOMContentLoaded", function() {
     if (swiperRecipesElement) {
         // Перевіряємо кількість слайдів
         const slidesCount = swiperRecipesElement.querySelectorAll('.swiper-slide').length;
-        // Для slidesPerView: 'auto' та loop потрібно більше слайдів
-        // Використовуємо loop тільки якщо достатньо слайдів (8+ для надійності)
-        const enableLoop = slidesCount >= 8;
+        // Для безкінечного loop потрібно хоча б 3 слайда (для плавності)
+        // Але якщо менше, все одно увімкнумо loop для плавності
+        const enableLoop = slidesCount >= 3;
         
         const swiperRecipesConfig = {
             direction: "horizontal", // ПЕРЕВІРКА: Горизонтальний напрямок
@@ -294,25 +234,27 @@ document.addEventListener("DOMContentLoaded", function() {
             // Додає відступ після останнього слайда (праворуч)
             slidesOffsetAfter: 20,
             
-            // Увімкнення loop тільки якщо достатньо слайдів
+            // Увімкнення loop для безкінечного прокручування
             loop: enableLoop,
-            loopAdditionalSlides: enableLoop ? 2 : 0,
+            loopAdditionalSlides: enableLoop ? Math.max(3, Math.ceil(slidesCount / 2)) : 0,
             loopPreventsSliding: false,
-            loopFillGroupWithBlank: false,
+            loopFillGroupWithBlank: true, // Важливо для плавного loop
             watchSlidesProgress: true,
-            watchOverflow: true,
+            watchSlidesVisibility: true,
+            watchOverflow: false, // Вимкнути для кращої роботи loop
             
-            centeredSlides: false, // Переконаємось що не використовується для desktop
+            centeredSlides: false,
             speed: 800,
             
             // Autoplay для автоматичного слайд-шоу - завжди включено
-            autoplay: {
+            autoplay: enableLoop ? {
                 delay: 3000,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: false,
                 stopOnLastSlide: false,
                 waitForTransition: true,
-            },
+                reverseDirection: false,
+            } : false,
             
             // Додаткові налаштування для надійності
             watchSlidesProgress: true,
@@ -383,53 +325,54 @@ document.addEventListener("DOMContentLoaded", function() {
                 // --- КЛЮЧОВІ ЗМІНИ У BREAKPOINTS ---
                 // Мобільні (до 768px)
                 320: {
-                    direction: "horizontal", // ПЕРЕВІРКА: Горизонтальний напрямок для мобільних
-                    // Відображаємо тільки ОДНУ ПОВНУ КАРТКУ
+                    direction: "horizontal",
                     slidesPerView: 1,
-                    // Центрування більше не потрібне, оскільки картка займає всю ширину
                     centeredSlides: false,
                     spaceBetween: 20,
                     slidesOffsetBefore: 20,
                     slidesOffsetAfter: 20,
                     loop: enableLoop,
-                    loopAdditionalSlides: enableLoop ? 1 : 0,
-                    autoplay: {
+                    loopAdditionalSlides: enableLoop ? Math.max(2, Math.ceil(slidesCount / 2)) : 0,
+                    loopFillGroupWithBlank: true,
+                    autoplay: enableLoop ? {
                         delay: 3000,
                         disableOnInteraction: false,
-                        stopOnLastSlide: !enableLoop,
-                    },
+                        stopOnLastSlide: false,
+                    } : false,
                 },
                 // Планшети (768px і вище)
                 768: {
-                    direction: "horizontal", // ПЕРЕВІРКА: Горизонтальний напрямок для планшетів
+                    direction: "horizontal",
                     slidesPerView: 'auto',
                     spaceBetween: 30,
                     centeredSlides: false,
                     slidesOffsetBefore: 20,
                     slidesOffsetAfter: 20,
                     loop: enableLoop,
-                    loopAdditionalSlides: enableLoop ? 2 : 0,
-                    autoplay: {
+                    loopAdditionalSlides: enableLoop ? Math.max(3, Math.ceil(slidesCount / 2)) : 0,
+                    loopFillGroupWithBlank: true,
+                    autoplay: enableLoop ? {
                         delay: 3000,
                         disableOnInteraction: false,
                         stopOnLastSlide: false,
-                    },
+                    } : false,
                 },
                 // Desktop (1200px і вище)
                 1200: {
-                    direction: "horizontal", // ПЕРЕВІРКА: Горизонтальний напрямок для desktop
+                    direction: "horizontal",
                     slidesPerView: 'auto',
                     spaceBetween: 30,
                     centeredSlides: false,
                     slidesOffsetBefore: 20,
                     slidesOffsetAfter: 20,
                     loop: enableLoop,
-                    loopAdditionalSlides: enableLoop ? 2 : 0,
-                    autoplay: {
+                    loopAdditionalSlides: enableLoop ? Math.max(3, Math.ceil(slidesCount / 2)) : 0,
+                    loopFillGroupWithBlank: true,
+                    autoplay: enableLoop ? {
                         delay: 3000,
                         disableOnInteraction: false,
                         stopOnLastSlide: false,
-                    },
+                    } : false,
                 }
             }
         };
@@ -448,68 +391,75 @@ document.addEventListener("DOMContentLoaded", function() {
     if (swiperInstagramElement) {
         // Перевіряємо кількість слайдів
         const instagramSlidesCount = swiperInstagramElement.querySelectorAll('.swiper-slide').length;
-        // З 8 слайдами loop працюватиме коректно
-        const enableInstagramLoop = instagramSlidesCount >= 8;
+        // Для безкінечного loop потрібно хоча б 3 слайда
+        const enableInstagramLoop = instagramSlidesCount >= 3;
         
         const swiperInstagramConfig = {
-            direction: "horizontal", // ПЕРЕВІРКА: Горизонтальний напрямок
+            direction: "horizontal",
             
             slidesPerView: 'auto',
-            spaceBetween: 30, // Така сама відстань як в рецептах
+            spaceBetween: 30,
             
-            // Увімкнення loop тільки якщо достатньо слайдів
+            // Увімкнення loop для безкінечного прокручування
             loop: enableInstagramLoop,
-            loopAdditionalSlides: enableInstagramLoop ? 2 : 0,
+            loopAdditionalSlides: enableInstagramLoop ? Math.max(3, Math.ceil(instagramSlidesCount / 2)) : 0,
             loopPreventsSliding: false,
-            loopFillGroupWithBlank: false,
+            loopFillGroupWithBlank: true, // Важливо для плавного loop
             watchSlidesProgress: true,
-            watchOverflow: true,
+            watchSlidesVisibility: true,
+            watchOverflow: false, // Вимкнути для кращої роботи loop
             
             centeredSlides: false,
             speed: 800,
             
-            // Дозволяємо свайп (touch control) - за замовчуванням true, але переконаємось
+            // Дозволяємо свайп
             allowTouchMove: true,
             grabCursor: true,
             
-            // Autoplay для автоматичного слайд-шоу по колу (тільки якщо loop увімкнено)
+            // Autoplay для автоматичного слайд-шоу по колу
             autoplay: enableInstagramLoop ? {
                 delay: 3000,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
+                stopOnLastSlide: false,
+                waitForTransition: true,
             } : false,
             
             breakpoints: {
                 320: {
-                    direction: "horizontal", // ПЕРЕВІРКА: Горизонтальний напрямок для мобільних
-                    slidesPerView: 1.1, // Показуємо одну повну і частину наступної картки
+                    direction: "horizontal",
+                    slidesPerView: 1.1,
                     spaceBetween: 15,
-                    centeredSlides: true, // Центруємо активний слайд на мобільних
+                    centeredSlides: true,
                     loop: enableInstagramLoop,
-                    loopAdditionalSlides: enableInstagramLoop ? 1 : 0, // Зменшено для уникнення попереджень
+                    loopAdditionalSlides: enableInstagramLoop ? Math.max(2, Math.ceil(instagramSlidesCount / 2)) : 0,
+                    loopFillGroupWithBlank: true,
                 },
                 768: {
-                    direction: "horizontal", // ПЕРЕВІРКА: Горизонтальний напрямок для планшетів
-                    slidesPerView: 1.2, // Трохи більше для планшетів
+                    direction: "horizontal",
+                    slidesPerView: 1.2,
                     spaceBetween: 20,
-                    centeredSlides: true, // Центруємо активний слайд
+                    centeredSlides: true,
                     loop: enableInstagramLoop,
-                    loopAdditionalSlides: enableInstagramLoop ? 1 : 0, // Зменшено для уникнення попереджень
+                    loopAdditionalSlides: enableInstagramLoop ? Math.max(2, Math.ceil(instagramSlidesCount / 2)) : 0,
+                    loopFillGroupWithBlank: true,
                 },
                 1024: {
-                    direction: "horizontal", // ПЕРЕВІРКА: Горизонтальний напрямок для desktop
+                    direction: "horizontal",
                     slidesPerView: 'auto',
                     spaceBetween: 30,
                     centeredSlides: false,
                     loop: enableInstagramLoop,
-                    loopAdditionalSlides: enableInstagramLoop ? 2 : 0,
+                    loopAdditionalSlides: enableInstagramLoop ? Math.max(3, Math.ceil(instagramSlidesCount / 2)) : 0,
+                    loopFillGroupWithBlank: true,
                 },
                 1200: {
                     slidesPerView: 'auto',
                     spaceBetween: 30,
                     centeredSlides: false,
                     loop: enableInstagramLoop,
-                    loopAdditionalSlides: enableInstagramLoop ? 2 : 0,
+                    loopAdditionalSlides: enableInstagramLoop ? Math.max(3, Math.ceil(instagramSlidesCount / 2)) : 0,
+                    loopFillGroupWithBlank: true,
                 }
             }
         };
@@ -543,31 +493,49 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// Set active dish function
+// Set active dish function (плавний перехід без моргання)
 window.setActiveDish = function(index) {
-    const allDishes = document.querySelectorAll('.popular-item-wrapper');
+    // Працюємо тільки з desktop версією
+    const allDishes = document.querySelectorAll('.desktop-menu-scroll .popular-item-wrapper');
     
-    allDishes.forEach(dish => dish.classList.remove('active'));
     if (allDishes[index]) {
-        allDishes[index].classList.add('active');
-        currentActiveDish = index;
+        // Спочатку прибираємо active з усіх
+        allDishes.forEach(dish => dish.classList.remove('active'));
         
-        const scrollContainer = document.getElementById('popular-scroll');
-        if (scrollContainer && allDishes[index]) {
-            allDishes[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
+        // Невелика затримка для плавного переходу
+        requestAnimationFrame(() => {
+            allDishes[index].classList.add('active');
+            currentActiveDish = index;
+            
+            const scrollContainer = document.getElementById('popular-scroll');
+            if (scrollContainer && allDishes[index]) {
+                // Плавний скрол з додатковою затримкою
+                setTimeout(() => {
+                    allDishes[index].scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'nearest', 
+                        inline: 'center' 
+                    });
+                }, 50);
+            }
+        });
     }
 }
 
-// Menu navigation buttons
+// Menu navigation buttons (для desktop)
 window.scrollLeftMenu = function() {
-    const allDishes = document.querySelectorAll('.popular-item-wrapper');
-    currentActiveDish = (currentActiveDish - 1 + allDishes.length) % allDishes.length;
-    setActiveDish(currentActiveDish);
+    const allDishes = document.querySelectorAll('.desktop-menu-scroll .popular-item-wrapper');
+    if (allDishes.length > 0) {
+        currentActiveDish = (currentActiveDish - 1 + allDishes.length) % allDishes.length;
+        setActiveDish(currentActiveDish);
+    }
 }
 
 window.scrollRightMenu = function() {
-    const allDishes = document.querySelectorAll('.popular-item-wrapper');
-    currentActiveDish = (currentActiveDish + 1) % allDishes.length;
-    setActiveDish(currentActiveDish);
+    const allDishes = document.querySelectorAll('.desktop-menu-scroll .popular-item-wrapper');
+    if (allDishes.length > 0) {
+        currentActiveDish = (currentActiveDish + 1) % allDishes.length;
+        setActiveDish(currentActiveDish);
+    }
 }
+

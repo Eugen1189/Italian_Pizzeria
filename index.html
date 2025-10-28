@@ -175,7 +175,8 @@
         <div class="container">
             <div class="menu-content-container">
                 <div class="menu-slider-visual-wrapper">
-            <div id="popular-scroll">
+                    <!-- Desktop версія: #popular-scroll -->
+                    <div id="popular-scroll" class="desktop-menu-scroll">
                         <div class="popular-item-wrapper">
                             <div class="decorative-bg star-red"></div>
                             <img src="img/pizza_margherita.jpg.png" alt="Margherita" class="popular-item" loading="lazy">
@@ -205,16 +206,64 @@
                             <img src="img/dessert_tiramisu.jpg.png" alt="Tiramisù" class="popular-item" loading="lazy">
                         </div>
                     </div>
-            </div>
-            
-            <div class="text-center mt-4">
-                    <button class="btn btn-outline-danger me-3" onclick="scrollLeftMenu()" aria-label="Scorri menu a sinistra">
-                        <i class="fas fa-chevron-left me-2" aria-hidden="true"></i>Indietro
-                </button>
-                    <button class="btn btn-outline-danger" onclick="scrollRightMenu()" aria-label="Scorri menu a destra">
-                        Avanti<i class="fas fa-chevron-right ms-2" aria-hidden="true"></i>
-                </button>
+                    
+                    <!-- Mobile версія: Swiper -->
+                    <div class="swiper mobileMenuSwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="popular-item-wrapper">
+                                    <div class="decorative-bg star-red"></div>
+                                    <img src="img/pizza_margherita.jpg.png" alt="Margherita" class="popular-item" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="popular-item-wrapper active">
+                                    <div class="decorative-bg star-green"></div>
+                                    <img src="img/pizza_diavola.jpg.png" alt="Pizza Diavola" class="popular-item" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="popular-item-wrapper">
+                                    <div class="decorative-bg star-gold"></div>
+                                    <img src="img/pizza_quattro_formaggi.jpg.png" alt="Pizza Quattro Formaggi" class="popular-item" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="popular-item-wrapper">
+                                    <div class="decorative-bg star-orange"></div>
+                                    <img src="img/antipasto_caprese.jpg.png" alt="Insalata Caprese" class="popular-item" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="popular-item-wrapper">
+                                    <div class="decorative-bg star-purple"></div>
+                                    <img src="img/antipasto_caprese.jpg.png" alt="Bruschetta" class="popular-item" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="popular-item-wrapper">
+                                    <div class="decorative-bg star-blue"></div>
+                                    <img src="img/pasta_carbonara.jpg.png" alt="Pasta Carbonara" class="popular-item" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="popular-item-wrapper">
+                                    <div class="decorative-bg star-pink"></div>
+                                    <img src="img/dessert_tiramisu.jpg.png" alt="Tiramisù" class="popular-item" loading="lazy">
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            
+                <div class="text-center mt-4 menu-navigation-buttons">
+                    <button class="btn btn-outline-danger me-3 desktop-nav-btn" onclick="scrollLeftMenu()" aria-label="Scorri menu a sinistra">
+                        <i class="fas fa-chevron-left me-2" aria-hidden="true"></i>Indietro
+                    </button>
+                    <button class="btn btn-outline-danger desktop-nav-btn" onclick="scrollRightMenu()" aria-label="Scorri menu a destra">
+                        Avanti<i class="fas fa-chevron-right ms-2" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
