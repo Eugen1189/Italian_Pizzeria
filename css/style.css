@@ -1,45 +1,71 @@
 /* Basic styles */
+/* --- Fix: Marquee Strip Overlap --- */
+/* Переконайтеся, що батьківський контейнер сторінки приховує все, що виходить за межі */
 html, body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-x: hidden; /* **КРИТИЧНО:** Видаляє горизонтальну прокрутку */
+    width: 100%;
+    max-width: 100%;
 }
 
 body {
-    max-width: 100vw; /* Limit content to viewport width */
+    max-width: 100%;
+    padding-top: 90px;
 }
 
-/* CSS Reset with box-sizing */
 * {
     box-sizing: border-box;
+    /* Увімкнення анімацій на мобільних */
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
 
-/* Hide scrollbar for all browsers */
+/* Дозволити анімації на мобільних пристроях */
+@media (prefers-reduced-motion: no-preference) {
+    * {
+        -webkit-animation-duration: inherit;
+        animation-duration: inherit;
+    }
+}
+
+/* Додатковий фікс для запобігання переповнення */
+.container-fluid {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+section {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
 }
 
 body {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/* 1. Header styles */
+/* Header styles */
 .main-header {
-    /* Very transparent background */
-    background-color: rgba(139, 0, 0, 0.2); /* Very light red with 20% opacity */
-    /* backdrop-filter removed to eliminate blur effect */
-    z-index: 1000; /* Overlaps the slider */
-    margin: 0; /* Ensure no margin */
-    padding: 0; /* Ensure no padding */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(139, 0, 0, 0.2);
+    z-index: 1000;
+    margin: 0;
+    padding: 0;
     width: 100%;
-    min-height: auto; /* Allow smaller height */
+    min-height: auto;
 }
 
-/* Reduce header height */
 .navbar {
-    padding: 0.15rem 0 !important; /* Minimal padding to make header even smaller */
+    padding: 0.15rem 0 !important;
 }
 
 .navbar-brand {
@@ -56,32 +82,32 @@ body {
 }
 
 .logo-text {
-    font-size: 1.3rem; /* Smaller logo */
+    font-size: 1.3rem;
     font-weight: bold;
-    color: white !important; /* White logo */
+    color: white !important;
     text-transform: uppercase;
-    font-family: 'Georgia', serif; /* Elegant serif font */
+    font-family: 'Georgia', serif;
     letter-spacing: 1px;
 }
 
 .nav-link {
     color: #fff !important;
-    margin: 0 5px; /* Smaller horizontal margins */
+    margin: 0 5px;
     font-weight: 500;
-    font-size: 0.85rem; /* Smaller nav links */
+    font-size: 0.85rem;
 }
 
 .btn-find-product {
     background-color: #333;
     color: white;
     border: none;
-    padding: 5px 12px; /* Even smaller buttons */
+    padding: 5px 12px;
     border-radius: 25px;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
-    font-size: 0.8rem; /* Smaller text */
-    margin: 0 3px; /* Smaller gaps */
+    font-size: 0.8rem;
+    margin: 0 3px;
 }
 
 .btn-find-product:hover {
@@ -91,7 +117,6 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* --- Hero Slider Button CTA Style --- */
 .hero-cta-btn {
     background-color: white;
     color: #333;
@@ -108,22 +133,18 @@ body {
     color: white;
 }
 
-/* --- Dynamic Highlighting Section Styles --- */
-
-/* --- Highlighting Section Animation Styles (UPDATED FOR CORNERS) --- */
-
 .highlight-section {
-    background-color: #FFFFFF; /* Italian white background */
+    background-color: #FFFFFF;
     position: relative;
     overflow: hidden;
     min-height: 40vh;
-    width: 100vw;
+    width: 100%;
+    max-width: 100%;
     margin: 0;
     padding: 0;
 }
 
 .highlight-content {
-    /* Ensure all words are visible but stacked, and not taking up full width */
     max-width: 90%; 
     margin: 0 auto;
     line-height: 1.2;
@@ -139,18 +160,17 @@ body {
     height: 300px;
     z-index: 1; 
     opacity: 0; 
-    
-    /* Simple fade-in transition only */
-    transition: opacity 0.6s ease;
+    transform: scale(0.8) translateY(20px); /* Початкове положення для плавної появи */
+    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 1s cubic-bezier(0.4, 0, 0.2, 1); /* Плавна кубічна крива Безьє */
+    overflow: visible; /* Дозволяє зіркам бути видимими */
 }
 
-/* 1. TOP-LEFT CORNER (Simple fade-in) */
 .highlight-image-left {
     top: 5%;
     left: 10%;
 }
 
-/* 2. BOTTOM-RIGHT CORNER (Simple fade-in) */
 .highlight-image-right {
     bottom: 5%;
     right: 10%;
@@ -160,31 +180,33 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* Optional: Add a shadow to make them stand out */
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4));
 }
 
-/* --- ACTIVE STATE: Simple fade-in --- */
-
-/* Active left image (Simple fade-in) */
-.highlight-image-left.active {
-    opacity: 1;
-}
-
-/* Active right image (Simple fade-in) */
+.highlight-image-left.active,
 .highlight-image-right.active {
     opacity: 1;
+    transform: scale(1) translateY(0); /* Плавна поява з масштабуванням */
 }
 
-/* Star background for highlight images */
 .highlight-star-left,
 .highlight-star-right {
     position: absolute;
     width: 400px;
     height: 400px;
     z-index: 0;
-    opacity: 0.6;
-    animation: starGlow 2s ease-in-out infinite;
+    opacity: 0; /* Початково невидима */
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Плавна поява */
+    animation: starGlowHighlight 2s ease-in-out infinite;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center; /* Встановлюємо центр обертання */
+}
+
+/* Плавна поява зірок разом з зображеннями */
+.highlight-image-left.active .highlight-star-left,
+.highlight-image-right.active .highlight-star-right {
+    opacity: 0.6; /* Поява зірки разом з зображенням */
 }
 
 .highlight-star-left {
@@ -204,56 +226,43 @@ body {
 }
 
 .highlight-word {
-    /* Base style for all words */
-    font-size: 5vw; /* Large size, responsive */
-    font-weight: 900; /* Extra bold */
-    color: #333; /* Default black color */
+    font-size: 5vw;
+    font-weight: 900;
+    color: #333;
     margin: 0;
-    
-    /* Ensure smooth color transition */
-    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Плавніші переходи */
     cursor: pointer;
 }
 
-/* Colorful hover effects for each word */
 .highlight-word:hover {
     transform: scale(1.05);
 }
 
-/* Different colors for each word on hover */
-.highlight-word[data-word="0"]:hover {
-    color: #DA291C; /* Italian Red */
-}
+.highlight-word[data-word="0"]:hover { color: #DA291C; }
+.highlight-word[data-word="1"]:hover { color: #007348; }
+.highlight-word[data-word="2"]:hover { color: #FF8C00; }
+.highlight-word[data-word="3"]:hover { color: #800080; }
+.highlight-word[data-word="4"]:hover { color: #0073FF; }
+.highlight-word[data-word="5"]:hover { color: #8B734B; }
 
-.highlight-word[data-word="1"]:hover {
-    color: #007348; /* Italian Green */
-}
-
-.highlight-word[data-word="2"]:hover {
-    color: #FF8C00; /* Orange */
-}
-
-.highlight-word[data-word="3"]:hover {
-    color: #800080; /* Purple */
-}
-
-.highlight-word[data-word="4"]:hover {
-    color: #0073FF; /* Blue */
-}
-
-.highlight-word[data-word="5"]:hover {
-    color: #8B734B; /* Gold */
-}
-
-/* --- Marquee / Running Strip Styles --- */
-
+/* Running strip */
+/* Якщо ви все ще використовуєте біжучу стрічку, застосуйте ці стилі до неї: */
 .running-strip {
-    background-color: #2F2B31; /* Dark purple/gray like Brar's */
-    position: relative;
+    /* Переконайтеся, що стрічка не виходить за межі */
+    background-color: #2F2B31;
+    position: fixed;
+    top: 60px;
+    left: 0;
     width: 100%;
+    margin: 0;
+    padding: 0;
     height: 30px;
-    overflow: hidden;
+    overflow: hidden; /* Приховує текст, що виходить за межі */
     white-space: nowrap;
+    z-index: 999;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
 .running-text {
@@ -264,6 +273,8 @@ body {
     font-weight: 500;
     text-transform: uppercase;
     animation: moveMarquee 25s linear infinite;
+    width: max-content;
+    white-space: nowrap;
 }
 
 .running-text span {
@@ -271,92 +282,80 @@ body {
 }
 
 @keyframes moveMarquee {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
-/* 2. Hero Slider styles */
+/* Hero Slider */
 .hero-slider {
-    width: 100vw;
-    height: 100vh; /* Full-screen height */
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
     margin: 0;
     padding: 0;
     overflow: hidden;
 }
 
 .swiper-slide {
-    transition: background-color 0.6s ease; /* Smooth color transition */
-    /* Ensure proper centering */
+    transition: background-color 0.6s ease;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
+    justify-content: center;
+    align-items: center;
 }
 
 .slide-title {
-    font-family: serif; /* Elegant font for headings */
+    font-family: serif;
     margin-bottom: 20px;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
     font-size: 5rem;
 }
 
-/* --- New Styles for Ornament Effect --- */
-
 .slide-image-container {
-    /* Set up context for absolute positioning of the ornament */
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /* Define the size based on the inner image */
-    width: 60vh; /* Adjust as needed */
-    height: 60vh; /* Adjust as needed */
+    width: 650px;  /* Збільшено до 650px для desktop */
+    height: 650px; /* Збільшено до 650px для desktop */
+    max-width: 90vw; /* Обмеження для маленьких екранів */
+    max-height: 90vh; /* Обмеження для маленьких екранів */
     margin: 40px 0;
 }
 
 .slide-image {
-    /* Reset styles from previous steps and ensure it's on top */
     position: relative;
-    max-width: 100%;
+    max-width: 90%;  /* Збільшено з 100% до 90% для кращого заповнення контейнера */
+    width: 90%;      /* Додано фіксовану ширину для стабільності */
     height: auto;
-    border-radius: 50%; /* Keep the circle border for Italian round pizza */
+    border-radius: 50%;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
-    z-index: 10; /* Ensure pizza image is above the ornament */
-    margin: 0; /* Remove any unwanted margins */
-    align-self: center; /* Center the image within flex container */
-    flex-shrink: 0; /* Prevent image from shrinking */
+    z-index: 10;
+    margin: 0;
+    align-self: center;
+    flex-shrink: 0;
+    object-fit: cover; /* Забезпечує правильне відображення */
 }
 
-/* Ornament Pseudo-element (Mimicking the background shape) */
 .slide-image-container::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 5; /* Place ornament below the image */
-
-    /* Thematic Italian ornament style - Simple dark ring with shadow (Classic, elegant) */
-    width: 120%; /* Larger than the image */
-    height: 120%; /* Larger than the image */
+    z-index: 5;
+    width: 120%;
+    height: 120%;
     border: 12px solid rgba(0, 0, 0, 0.5);
     border-radius: 50%;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), 
-                inset 0 0 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Ensure title and CTA remain on top */
 .slide-title, .slide-cta {
     z-index: 20;
     position: relative;
 }
 
-/* Decorative elements - more visible */
 .swiper-slide::before {
     content: '';
     position: absolute;
@@ -371,33 +370,23 @@ body {
     animation: float 6s ease-in-out infinite;
 }
 
-/* Small flag icon removed */
-
 @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(-20px) rotate(5deg); }
 }
 
-/* --- Updated CSS Colors for Italian Flag Theme --- */
-
-/* Italian Flag for hero slider */
 .slide-margherita,
 .slide-diavola,
 .slide-formaggi {
-    background: 
-        linear-gradient(90deg,
-            #008C45 0%, 
-            #008C45 33.33%,
-            #FFFFFF 33.33%,
-            #FFFFFF 66.66%,
-            #CD212A 66.66%,
-            #CD212A 100%
+    background: linear-gradient(90deg,
+        #008C45 0%, #008C45 33.33%,
+        #FFFFFF 33.33%, #FFFFFF 66.66%,
+        #CD212A 66.66%, #CD212A 100%
         );
     position: relative;
     overflow: hidden;
 }
 
-/* Waving animation effect */
 .slide-margherita::before,
 .slide-diavola::before,
 .slide-formaggi::before {
@@ -407,35 +396,22 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-        linear-gradient(90deg,
-            #008C45 0%, 
-            #008C45 33.33%,
-            #FFFFFF 33.33%,
-            #FFFFFF 66.66%,
-            #CD212A 66.66%,
-            #CD212A 100%
+    background: linear-gradient(90deg,
+        #008C45 0%, #008C45 33.33%,
+        #FFFFFF 33.33%, #FFFFFF 66.66%,
+        #CD212A 66.66%, #CD212A 100%
         );
     animation: waveItalianFlag 5s ease-in-out infinite;
     z-index: 0;
 }
 
 @keyframes waveItalianFlag {
-    0%, 100% {
-        transform: skewY(0deg);
-    }
-    25% {
-        transform: skewY(1deg);
-    }
-    50% {
-        transform: skewY(0deg);
-    }
-    75% {
-        transform: skewY(-1deg);
-    }
+    0%, 100% { transform: skewY(0deg); }
+    25% { transform: skewY(1deg); }
+    50% { transform: skewY(0deg); }
+    75% { transform: skewY(-1deg); }
 }
 
-/* Ensure content is above the flag */
 .slide-title,
 .slide-cta,
 .slide-image-container {
@@ -443,7 +419,6 @@ body {
     z-index: 10;
 }
 
-/* Navigation button styles for hero slider */
 .swiper.mySwiper .swiper-button-next, 
 .swiper.mySwiper .swiper-button-prev {
     color: white !important;
@@ -455,30 +430,109 @@ body {
     backdrop-filter: blur(5px);
 }
 
-/* --- Menu Categories Section Styles --- */
-
+/* Menu Categories Section */
 .menu-categories-section {
-    background-color: #008C45; /* Green background */
-    position: relative;
+    background-color: #F7F7F7; /* Світлий кремовий колір для візуального поділу від Hero */
+    padding-top: 50px; 
+    padding-bottom: 50px;
+    overflow: hidden;
     width: 100%;
-    min-height: 500px;
     margin: 0;
-    padding: 60px 0;
 }
 
 .menu-categories-section .container {
+    width: 100%;
     max-width: 100%;
-    padding-left: 15px;
-    padding-right: 15px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 20px;
 }
 
-#popular-scroll {
-    width: 100%;
+/* --- Новий Контейнер Меню (Стиль Brar's) --- */
+
+.menu-content-container {
+    /* 1. Фон та Закруглення */
+    background-color: white; /* Чисто білий для контрасту з #F7F7F7 */
+    border-radius: 20px; /* Велике заокруглення кутів */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); /* Збільшена тінь для ефекту "підняття" */
+    padding: 30px 20px; /* Внутрішній відступ для контенту */
+    margin-top: 20px; /* Невеликий відступ від заголовка */
+    max-width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* На desktop - зберігаємо світлий фон для контрасту */
+@media (min-width: 1024px) {
+    .menu-categories-section {
+        background-color: #F7F7F7; /* Світлий фон на desktop */
+    }
+    
+    .menu-content-container {
+        background-color: white; /* Білий контейнер на desktop */
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); /* Збережуємо тінь */
+        border-radius: 20px;
+        padding: 30px 20px;
+        margin-top: 20px;
+        max-width: 95%;
+    }
+    
+    .menu-section-title {
+        color: #333; /* Темний текст на desktop */
+    }
+}
+
+/* 2. Коригування Внутрішнього Слайдера */
+.menu-slider-visual-wrapper {
+    /* Видаліть попередній зелений фон, якщо він був тут */
+    background-color: transparent !important;
+    
+    /* Зменшіть padding, оскільки він вже є на .menu-content-container */
+    padding: 0;
+    overflow: hidden;
+}
+
+/* 3. Коригування Кнопок Навігації */
+/* Переконайтеся, що кнопки відображаються коректно всередині світлого контейнера */
+.menu-content-container .btn-outline-danger {
+    border-color: #008C45;
+    color: #008C45;
+    background-color: transparent;
+    z-index: 20; /* Щоб кнопки були над слайдером */
+        position: relative;
+    }
+    
+.menu-content-container .btn-outline-danger:hover {
+    background-color: #008C45 !important;
+    border-color: #008C45 !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 140, 69, 0.3);
+}
+
+.menu-content-container .btn-outline-danger:active {
+    transform: translateY(0);
+}
+
+.menu-slider-visual-wrapper .btn {
+    z-index: 20; /* Щоб кнопки були над слайдером */
+        position: relative;
+    margin-top: 10px;
+    }
+    
+    #popular-scroll {
+        display: flex;
+    gap: 8rem; /* Значно збільшено простір для ефекту якості */
     overflow-x: auto;
     overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
-    padding: 0 10px;
+    padding: 40px 60px; /* Збільшено padding для більш просторого вигляду */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    align-items: center; /* Вирівнювання по центру для кращого вигляду */
 }
 
 #popular-scroll::-webkit-scrollbar {
@@ -487,152 +541,27 @@ body {
 
 .menu-section-title {
     font-family: serif;
-    color: white; /* White color for visibility on green background */
-    padding-top: 20px;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Add shadow for better readability */
+    color: #333; /* Темний колір для контрасту на світлому фоні */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-shadow: none; /* Прибрано тінь, оскільки фон світлий */
 }
 
-/* 1. Category Tabs (Buttons) */
-.menu-tabs-nav {
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-    gap: 15px; /* Spacing between buttons */
-}
-
-.menu-tab-btn {
-    border: none;
-    background: transparent;
-    color: #666;
-    padding: 10px 20px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-}
-
-.menu-tab-btn:hover {
-    color: #DA291C; /* Hover effect: red accent */
-}
-
-.menu-tab-btn.active {
-    color: #DA291C;
-    border-bottom: 3px solid #DA291C; /* Active tab underline */
-    font-weight: bold;
-}
-
-/* 2. Menu Item Cards */
-.menu-tabs-content {
-    margin-top: 30px;
-}
-
-.category-content {
-    display: none; /* Hide all content by default */
-    animation: fadeIn 0.5s ease-in-out; /* Fade-in animation for content */
-    
-    /* Base styles for all content blocks with background images */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    /* Create a dark overlay using a linear-gradient over the image
-       This ensures the text remains readable, regardless of the image brightness. */
-    background-blend-mode: multiply; /* Blends the image with the background color */
-    background-color: rgba(248, 248, 248, 0.95); /* Light background color with high opacity */
-    
-    padding: 30px; /* Add some padding for visual breathing room */
-}
-
-.category-content.active {
-    display: block; /* Show active content */
-}
-
-/* Warm background for popular menu section */
-#most-popular {
-    background-color: #FFF8F0; /* Warm cream background */
-    padding: 30px 0;
-}
-
-/* --- Thematic Background Images for Menu Sections --- */
-
-/* Background for Popular section */
-.menu-bg-popular {
-    background-image: linear-gradient(rgba(248, 248, 248, 0.95), rgba(248, 248, 248, 0.95));
-}
-
-/* Background for Pizze section: Flour, Dough, or Oven */
-.menu-bg-pizze {
-    background-image: linear-gradient(rgba(248, 248, 248, 0.9), rgba(248, 248, 248, 0.9)), 
-                      url('../img/pizza_margherita.jpg.png'); /* Use pizza image as background texture */
-}
-
-/* Background for Antipasti section: Olives, Tomatoes, or Wine */
-.menu-bg-antipasti {
-    background-image: linear-gradient(rgba(248, 248, 248, 0.9), rgba(248, 248, 248, 0.9)),
-                      url('../img/bg_olive_oil_splash.webp.png'); /* Use a subtle oil splash or olive image */
-}
-
-/* Background for Pasta section: Dry Pasta or Hand-Made Dough */
-.menu-bg-pasta {
-    background-image: linear-gradient(rgba(248, 248, 248, 0.9), rgba(248, 248, 248, 0.9)),
-                      url('../img/bg_dry_pasta.webp.png'); /* Use a texture of various dry pasta shapes */
-}
-
-/* Background for Dessert section: Coffee Beans, Cocoa, or Pastries */
-.menu-bg-dessert {
-    background-image: linear-gradient(rgba(248, 248, 248, 0.9), rgba(248, 248, 248, 0.9)),
-                      url('../img/bg_cocoa_powder.webp.png'); /* Use a light dusting of cocoa powder or coffee beans */
-}
-
-.menu-item-card {
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    text-align: center;
-    transition: transform 0.3s, background 0.3s;
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.menu-item-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Hover background images for different menu categories */
-.menu-bg-pizze .menu-item-card:hover {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
-                      url('../img/pizza_margherita.jpg.png');
-}
-
-.menu-bg-antipasti .menu-item-card:hover {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
-                      url('../img/antipasto_caprese.jpg.png');
-}
-
-.menu-bg-pasta .menu-item-card:hover {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
-                      url('../img/pasta_carbonara.jpg.png');
-}
-
-.menu-bg-dessert .menu-item-card:hover {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
-                      url('../img/dessert_tiramisu.jpg.png');
-}
-
-#most-popular .menu-item-card:hover {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
-                      url('../img/pizza_margherita.jpg.png');
-}
-
-/* Popular item wrapper with decorative background */
 .popular-item-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 1;
+    transition: all 0.5s ease;
+    margin: 20px 0; /* Додатковий вертикальний простір */
+    padding: 10px; /* Внутрішній простір навколо зображення */
+    overflow: visible; /* Дозволяє зіркам бути видимими */
+}
+
+/* Активна страва - більша на фоні */
+.popular-item-wrapper.active {
+    z-index: 10;
 }
 
 .decorative-bg {
@@ -640,185 +569,173 @@ body {
     z-index: 0;
 }
 
-/* Colorful stars for each dish */
-.star-red {
-    width: 480px;
-    height: 480px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(218,41,28,0.5)' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: contain;
-    transition: all 0.3s ease;
-}
-
-.star-green {
-    width: 480px;
-    height: 480px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(0,115,72,0.5)' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: contain;
-    transition: all 0.3s ease;
-}
-
-.star-gold {
-    width: 480px;
-    height: 480px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(255,215,0,0.5)' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: contain;
-    transition: all 0.3s ease;
-}
-
-.star-orange {
-    width: 480px;
-    height: 480px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(255,140,0,0.5)' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: contain;
-    transition: all 0.3s ease;
-}
-
-.star-purple {
-    width: 480px;
-    height: 480px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(128,0,128,0.5)' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: contain;
-    transition: all 0.3s ease;
-}
-
-.star-blue {
-    width: 480px;
-    height: 480px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(0,115,255,0.5)' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: contain;
-    transition: all 0.3s ease;
-}
-
+.star-red,
+.star-green,
+.star-gold,
+.star-orange,
+.star-purple,
+.star-blue,
 .star-pink {
-    width: 480px;
-    height: 480px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(255,182,193,0.5)' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
+    width: 380px;
+    height: 380px;
     background-size: contain;
     transition: all 0.3s ease;
 }
 
-/* Menu item card wrapper for stars in menu sections */
-.menu-item-card-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.menu-item-card-wrapper .decorative-bg {
-    position: absolute;
-    z-index: 0;
-    width: 280px;
-    height: 280px;
-    opacity: 1;
-}
+/* Яскраві кольори зірок для видимості на білому фоні */
+.star-red { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FF0000' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center; }
+.star-green { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300AA00' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center; }
+.star-gold { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFD700' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center; }
+.star-orange { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FF6600' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center; }
+.star-purple { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%239400D3' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center; }
+.star-blue { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230066FF' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center; }
+.star-pink { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FF1493' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center; }
 
 .popular-item {
     position: relative;
     z-index: 1;
-    min-width: 260px;
-    height: 360px;
+    min-width: 140px;
+    height: 180px;
     object-fit: cover;
     border-radius: 50%;
-    transition: transform 0.3s;
+    transition: all 0.4s ease;
     cursor: pointer;
+    filter: brightness(0.7) saturate(0.8); /* Приглушені неактивні страви */
 }
 
 .popular-item:hover {
     transform: scale(1.05);
+    filter: brightness(0.9) saturate(1);
 }
 
-/* Default opacity for inactive stars */
-.popular-item-wrapper .decorative-bg,
-.menu-item-card-wrapper .decorative-bg {
-    opacity: 0.4;
+.popular-item-wrapper .decorative-bg {
+    opacity: 0.8; /* Збільшено opacity для видимості на білому */
+    transition: all 0.4s ease;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3)); /* Додано тінь для контрасту */
 }
 
-/* Active star animation (for active dish) */
-.popular-item-wrapper.active .decorative-bg,
-.menu-item-card-wrapper.active .decorative-bg {
+/* Активна страва - яскрава та велика */
+.popular-item-wrapper.active .popular-item {
+    transform: scale(1.25); /* Значно більше на фоні інших */
+    filter: brightness(1.2) saturate(1.3) contrast(1.1); /* Яскравіша та контрастніша */
+    /* Тіні прибрано */
+    box-shadow: none;
+}
+
+.popular-item-wrapper.active .decorative-bg {
     animation: starGlow 2s ease-in-out infinite;
-    opacity: 0.8 !important; /* Brighter for active */
+    opacity: 1 !important;
+    filter: brightness(1.3);
+    /* Видалено transform, щоб анімація працювала повністю */
 }
 
-/* Hover animation for other dishes */
+/* Hover ефект - запускає анімацію зірок (працює також на мобільних через touch) */
 .popular-item-wrapper:hover .decorative-bg,
-.menu-item-card-wrapper:hover .decorative-bg {
-    opacity: 0.4;
+.popular-item-wrapper:active .decorative-bg {
+    animation: starGlow 1.5s ease-in-out infinite;
+    opacity: 0.9 !important;
+    filter: brightness(1.2);
 }
 
 .popular-item-wrapper:hover .popular-item,
-.menu-item-card-wrapper:hover {
-    transform: scale(1.03);
+.popular-item-wrapper:active .popular-item {
+    transform: scale(1.15);
+    filter: brightness(1.1) saturate(1.1);
 }
 
-/* Click effect */
-.popular-item-wrapper:active .popular-item,
-.menu-item-card-wrapper:active {
-    transform: scale(0.95);
+/* Touch ефект для мобільних */
+@media (hover: none) and (pointer: coarse) {
+    .popular-item-wrapper:active .decorative-bg {
+        animation: starGlow 1.5s ease-in-out infinite;
+        opacity: 0.9 !important;
+        filter: brightness(1.2);
+    }
+    
+    .popular-item-wrapper:active .popular-item {
+        transform: scale(1.15);
+        filter: brightness(1.1) saturate(1.1);
+    }
 }
 
-/* Make active dish more prominent */
-.popular-item-wrapper.active .popular-item {
-    transform: scale(1.1);
+/* Неактивні страви більш приглушені */
+.popular-item-wrapper:not(.active) .popular-item {
+    filter: brightness(0.65) saturate(0.7);
 }
 
 @keyframes starGlow {
-    0%, 100% { 
-        transform: scale(1) rotate(0deg); 
-        opacity: 0.3; 
-        filter: brightness(1);
+    0% { 
+        transform: scale(1.1) rotate(0deg); 
+        opacity: 0.8; 
+        filter: brightness(1.2);
+    }
+    25% {
+        transform: scale(1.2) rotate(90deg);
+        opacity: 0.9;
+        filter: brightness(1.35);
     }
     50% { 
-        transform: scale(1.15) rotate(180deg); 
-        opacity: 0.5; 
-        filter: brightness(1.3);
+        transform: scale(1.3) rotate(180deg); 
+        opacity: 1; 
+        filter: brightness(1.5);
+    }
+    75% {
+        transform: scale(1.2) rotate(270deg);
+        opacity: 0.9;
+        filter: brightness(1.35);
+    }
+    100% { 
+        transform: scale(1.1) rotate(360deg); 
+        opacity: 0.8; 
+        filter: brightness(1.2);
     }
 }
 
-.menu-item-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 5px;
-    margin-bottom: 15px;
+/* Окрема анімація для highlight-star з центруванням */
+@keyframes starGlowHighlight {
+    0% { 
+        transform: translate(-50%, -50%) scale(1.1) rotate(0deg); 
+        opacity: 0.8; 
+        filter: brightness(1.2);
+    }
+    25% {
+        transform: translate(-50%, -50%) scale(1.2) rotate(90deg);
+        opacity: 0.9;
+        filter: brightness(1.35);
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.3) rotate(180deg); 
+        opacity: 1; 
+        filter: brightness(1.5);
+    }
+    75% {
+        transform: translate(-50%, -50%) scale(1.2) rotate(270deg);
+        opacity: 0.9;
+        filter: brightness(1.35);
+    }
+    100% { 
+        transform: translate(-50%, -50%) scale(1.1) rotate(360deg); 
+        opacity: 0.8; 
+        filter: brightness(1.2);
+    }
 }
 
-.ingredients {
-    font-size: 0.9em;
-    color: #888;
-}
-
-.price {
-    display: block;
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #DA291C; /* Red price accent */
-    margin-top: 10px;
-}
-
-/* Keyframe for fade-in effect */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-
-/* Navigation buttons for popular menu */
-#most-popular .btn-outline-danger {
+.btn-outline-danger {
     border-width: 2px;
     font-weight: 600;
     padding: 10px 30px;
     transition: all 0.3s ease;
     background-color: transparent;
-    border-color: white; /* White border for visibility on green background */
-    color: white; /* White text */
+}
+
+#most-popular .btn-outline-danger {
+    border-color: white;
+    color: white;
 }
 
 #most-popular .btn-outline-danger:hover {
     background-color: white !important;
     border-color: white !important;
-    color: #008C45 !important; /* Green text on white background */
+    color: #008C45 !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
 }
@@ -827,16 +744,15 @@ body {
     transform: translateY(0);
 }
 
-/* --- Philosophy Section Styles --- */
-
+/* Philosophy Section */
 .philosophy-section {
-    background-color: #FFFFFF; /* Italian white */
+    background-color: #FFFFFF;
     padding-top: 80px;
     padding-bottom: 80px;
 }
 
 .philosophy-title {
-    font-family: serif; /* Elegant font for the title */
+    font-family: serif;
     font-size: 5rem;
     font-weight: 900;
     line-height: 0.9;
@@ -849,34 +765,30 @@ body {
     font-weight: 300;
 }
 
-/* 1. Left Column (Image Shelf) */
 .philosophy-left {
     position: relative;
     padding-right: 50px;
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateY(50px);
 }
 
 .philosophy-image-shelf {
     position: relative;
     margin-top: 40px;
-    /* Create a visual depth by adjusting alignment */
     transform: translateX(-5%); 
 }
 
 .philosophy-image-shelf img {
-    /* Assuming a wide, slightly curved image of products/ingredients */
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     width: 100%;
 }
 
-/* 2. Small Decorative Badges (Italian Style) */
 .philosophy-badge {
     position: absolute;
     width: 100px;
     height: 100px;
-    background-color: #DA291C; /* Italian Red background */
+    background-color: #DA291C;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -907,11 +819,10 @@ body {
     line-height: 1.2;
 }
 
-/* 3. Right Column (Text Content) */
 .philosophy-right {
     padding-left: 50px;
     opacity: 0;
-    transform: translateX(50px);
+    transform: translateY(50px);
 }
 
 .philosophy-text-content {
@@ -934,34 +845,55 @@ body {
     box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
 }
 
-@keyframes slideInLeft {
+@keyframes slideInUp {
     from {
         opacity: 0;
-        transform: translateX(-50px);
+        transform: translateY(50px);
     }
     to {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateY(0);
     }
 }
 
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* --- Recipes Section Styles --- */
-
+/* --- Recipes Section Styling for Fade Effect --- */
 .recipes-section {
-    background-color: #CD212A; /* Italian red */
+    background-color: #006400; /* Темно-зелений фон для візуального контрасту */
     padding-top: 100px;
-    padding-bottom: 100px;
+    padding-bottom: 150px;
+    position: relative;
+    z-index: 1;
+    overflow: visible; /* Дозволяє слайдам трохи виходити за межі */
+}
+
+/* Створення шару градієнта (Псевдоелемент) */
+.recipes-section::before,
+.recipes-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 150px; /* Ширина зони затухання */
+    height: 100%;
+    z-index: 10; /* Вище за слайдер, щоб перекривати */
+    pointer-events: none; /* Дозволяє кліки проходити через градієнт */
+}
+
+/* Лівий край: Затухання до червоного */
+.recipes-section::before {
+    left: 0;
+    background: linear-gradient(to right, 
+        #006400 20%, /* Починаємо з темно-зеленого */
+        rgba(0, 100, 0, 0) 100% /* Затухаємо до прозорого */
+    );
+}
+
+/* Правий край: Затухання до зеленого */
+.recipes-section::after {
+    right: 0;
+    background: linear-gradient(to left, 
+        #006400 20%, /* Починаємо з темно-зеленого */
+        rgba(0, 100, 0, 0) 100% /* Затухаємо до прозорого */
+    );
 }
 
 .recipes-title {
@@ -969,7 +901,9 @@ body {
     font-weight: 900;
     text-transform: uppercase;
     line-height: 1.1;
-    color: white; /* White text on red background */
+    color: white;
+    position: relative;
+    z-index: 15; /* Вище за градієнти */
 }
 
 .view-more-btn {
@@ -978,92 +912,118 @@ body {
     border: 2px solid white;
     color: #CD212A;
     font-weight: bold;
+    position: relative;
+    z-index: 15; /* Вище за градієнти */
 }
 
-/* 1. Recipe Slider & Cards */
 .myRecipesSwiper {
     width: 100%;
+    height: 450px;
+    overflow: hidden;
+    margin: 0 auto;
     padding-left: 0 !important; 
     padding-right: 0 !important;
 }
 
 .recipes-card-wrapper {
     padding: 0 5vw;
+    display: flex;
 }
 
+/* --- Recipe Card Slide Styles --- */
 .recipe-card-slide {
     width: 280px !important;
     height: 400px;
-    border-radius: 15px;
-    overflow: hidden;
     position: relative;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    transform: rotate(1deg); 
-    transition: transform 0.6s ease, box-shadow 0.3s ease;
+    border-radius: 20px; /* Закруглені кути */
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Тінь для червоних карток */
+    transform: none; 
+    transition: transform 0.3s ease;
+    margin: 0;
+    z-index: 10;
+    background-color: #DA291C !important; /* Уніфікований червоний фон */
 }
 
 .recipe-card-slide:hover {
-    transform: rotate(0deg) scale(1.03);
+    transform: scale(1.03);
+    z-index: 20;
 }
 
-/* Dynamic Card Colors - Warm Italian-inspired palette */
-.card-color-red { background: linear-gradient(135deg, #C23B3B 0%, #8B1A1A 100%); }
-.card-color-blue { background: linear-gradient(135deg, #4A90E2 0%, #2E5C8F 100%); }
-.card-color-yellow { background: linear-gradient(135deg, #F4B942 0%, #D8941F 100%); }
-.card-color-purple { background: linear-gradient(135deg, #B880D4 0%, #8B5FB0 100%); }
-.card-color-green { background: linear-gradient(135deg, #6AB84A 0%, #4A8B2A 100%); }
-.card-color-orange { background: linear-gradient(135deg, #FF8C42 0%, #CC5A1A 100%); }
+.recipe-card-slide:active {
+    transform: scale(1.03); /* Для мобільних touch */
+}
+
+
+/* Кольори карток рецептів - червоний фон */
+/* --- Recipe Card Colors (Уніфікація до червоного) --- */
+.card-color-red,
+.card-color-blue,
+.card-color-yellow,
+.card-color-purple,
+.card-color-green,
+.card-color-orange {
+    background-color: #DA291C !important; /* Усі картки червоні */
+}
 
 .recipe-card {
-    color: white;
+    color: white; /* Білий текст на червоному фоні */
     height: 100%;
     display: flex;
     flex-direction: column;
     position: relative;
 }
 
+/* --- Recipe Image Styling --- */
 .recipe-img {
-    height: 50%;
+    height: 60%; 
     width: 100%;
     object-fit: cover;
+    /* Видалено всі ефекти - просто блюдо */
+    border-radius: 0; /* Прибрано закруглення */
 }
 
 .recipe-content {
-    padding: 15px;
-    flex: 1;
+    color: white; /* Білий текст на червоному фоні */
+    padding: 10px 15px;
+    position: relative;
+    height: 40%;
     display: flex;
     flex-direction: column;
 }
 
 .recipe-time {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: -380px;
+    right: 5px;
     background-color: rgba(0, 0, 0, 0.4);
     color: white;
     padding: 3px 8px;
     border-radius: 15px;
     font-size: 0.8rem;
     font-weight: bold;
+    z-index: 10;
 }
 
 .recipe-label {
     font-size: 0.9rem;
     font-weight: 500;
-    margin-bottom: 10px;
-    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 5px;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.9); /* Світлий текст на червоному фоні */
 }
 
 .recipe-name {
     font-weight: 900;
-    font-size: 1.4rem;
-    line-height: 1.2;
-    margin-bottom: auto;
+    font-size: 1.2rem;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    color: white; /* Білий текст */
 }
 
 .recipe-btn {
-    background-color: white;
-    color: #333;
+    background-color: white; /* Білий фон кнопки */
+    color: #DA291C; /* Червоний текст */
     border: none;
     border-radius: 40px;
     padding: 8px 15px;
@@ -1073,11 +1033,11 @@ body {
 }
 
 .recipe-btn:hover {
-    background-color: #333;
-    color: white;
+    background-color: #f5f5f5;
+    color: #DA291C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
 }
-
-/* --- Recipe Card Decorative Elements --- */
 
 .card-decoration {
     position: absolute;
@@ -1107,30 +1067,21 @@ body {
     right: 10px;
 }
 
-/* Active state - show decorations when slide is active */
 .swiper-slide-active .card-decoration {
     opacity: 1;
     transform: scale(1) rotate(360deg);
 }
 
-/* Optional: Different color for chef icon when active */
 .swiper-slide-active .card-deco-chef {
     background-color: #DA291C;
 }
 
-/* 2. Custom Navigation Arrows */
 .recipes-section .swiper {
     position: relative;
+    z-index: 5; /* Вище за градієнти */
 }
 
-
-/* Navigation buttons for recipes section - same style as menu */
 .recipes-section .btn-outline-danger {
-    border-width: 2px;
-    font-weight: 600;
-    padding: 10px 30px;
-    transition: all 0.3s ease;
-    background-color: transparent;
     border-color: #DA291C;
     color: #DA291C;
 }
@@ -1147,88 +1098,54 @@ body {
     transform: translateY(0);
 }
 
-/* --- Category Marquee Strip Styles --- */
-
-.category-marquee-section {
-    position: relative;
-    padding-top: 50px;
-}
-
-.category-marquee-strip {
-    background-color: #FFF8DC; /* Light Italian cream */
-    padding: 15px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    position: relative;
-}
-
-.category-marquee-content {
-    display: flex;
-    white-space: nowrap;
-    animation: moveMarquee 40s linear infinite;
-}
-
-.marquee-item-group {
-    display: inline-flex;
-    flex-shrink: 0;
-}
-
-.marquee-item {
-    font-size: 1.2rem;
-    font-weight: 800;
-    margin: 0 40px;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-}
-
-/* Icon Styling */
-.marquee-item i {
-    font-size: 1.5rem;
-    margin-right: 10px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-/* Item Colors (Using themed Italian colors) */
-.marquee-antipasti { color: #333; }
-.marquee-antipasti i { color: #FFA500; }
-
-.marquee-pizza { color: #333; }
-.marquee-pizza i { color: #9E2A2B; }
-
-.marquee-pasta { color: #333; }
-.marquee-pasta i { color: #4AA9E8; }
-
-.marquee-desserts { color: #333; }
-.marquee-desserts i { color: #B29759; }
-
-.marquee-wine { color: #333; }
-.marquee-wine i { color: #6A0DAD; }
-
-/* Bottom Contrasting Strip */
-.marquee-bottom-strip {
-    background-color: #FF4500;
-    height: 15px;
-    width: 100%;
-}
-
-/* --- Instagram Gallery Section Styles --- */
-
+/* --- Instagram Section Styling for Fade Effect --- */
 .instagram-section {
     position: relative;
-    background-color: #CD212A; /* Italian red - same as recipes section */
-    padding-top: 100px;
-    padding-bottom: 100px;
+    background-color: #FFFFFF; /* Білий фон для кращої читабельності */
+    padding-top: 50px;
+    padding-bottom: 0; /* Зберігаємо нижню червону смугу */
+    overflow: visible; /* Дозволяє слайдам виходити за межі */
+    z-index: 1;
 }
 
-/* Make Instagram title readable on red background */
+/* Створення шару градієнта для Instagram секції */
+.instagram-section::before,
+.instagram-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 150px; /* Ширина зони затухання */
+    height: 100%;
+    z-index: 10; /* Вище за слайдер */
+    pointer-events: none; /* Дозволяє кліки проходити через градієнт */
+}
+
+/* Лівий край: Затухання до білого */
+.instagram-section::before {
+    left: 0;
+    background: linear-gradient(to right, 
+        #FFFFFF 20%, /* Починаємо з білого */
+        rgba(255, 255, 255, 0) 100% /* Затухаємо до прозорого */
+    );
+}
+
+/* Правий край: Затухання до білого */
+.instagram-section::after {
+    right: 0;
+    background: linear-gradient(to left, 
+        #FFFFFF 20%, /* Починаємо з білого */
+        rgba(255, 255, 255, 0) 100% /* Затухаємо до прозорого */
+    );
+}
+
 .instagram-section .recipes-title {
-    color: white;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    color: #333; /* Темний колір для кращої читабельності на білому фоні */
+    text-shadow: none; /* Прибрано тінь, оскільки фон світлий */
     font-weight: 900;
+    position: relative;
+    z-index: 15; /* Вище за градієнти */
 }
 
-/* 1. Gallery Slider & Cards */
 .myInstagramSwiper {
     width: 100%;
     margin-left: 0;
@@ -1237,6 +1154,8 @@ body {
     padding-right: 5vw;
     padding-top: 50px;
     padding-bottom: 50px;
+    position: relative;
+    z-index: 5; /* Вище за градієнти */
 }
 
 .instagram-card-wrapper {
@@ -1246,7 +1165,7 @@ body {
 }
 
 .instagram-card-slide {
-    width: 300px !important;
+    width: 280px !important; /* Такий самий розмір як recipe-card-slide */
     height: 400px;
 }
 
@@ -1258,9 +1177,9 @@ body {
     border-radius: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
+    background-color: #DA291C !important; /* CRITICAL FIX: Червоний фон для Instagram карток */
 }
 
-/* Decorative circle element behind the image - same as menu section effect */
 .instagram-card::before {
     content: '';
     position: absolute;
@@ -1288,12 +1207,15 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center; /* Center the image */
+    object-position: center;
     border-radius: 20px;
-    z-index: 10;
+    z-index: 1; /* Під оверлеєм */
     position: relative;
     transition: transform 0.5s ease;
     display: block;
+    /* Видалення чорної рамки від зображення (якщо є) */
+    border: none;
+    outline: none;
 }
 
 .instagram-card:hover .insta-img {
@@ -1304,7 +1226,7 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.7); /* Трохи темніший для кращої видимості */
     color: white;
     padding: 8px 12px;
     border-radius: 20px;
@@ -1312,18 +1234,21 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    z-index: 10; /* Переконаємось, що оверлей над зображенням */
+    backdrop-filter: blur(5px); /* Легкий blur для кращої читабельності */
 }
 
-/* 2. Contrasting Bottom Strip */
+/* --- Contrasting Bottom Strip --- */
 .instagram-bottom-strip {
-    background-color: #FF4500;
+    /* Цей колір має залишитися, щоб відділити блок від футера */
+    background-color: #FF4500; /* Насичений помаранчевий/червоний */
     height: 180px;
     width: 100%;
     position: relative;
     overflow: hidden;
+    z-index: 2; /* Переконаємось, що смуга видима */
 }
 
-/* 3. Branding Circle */
 .branding-circle {
     position: absolute;
     right: 5%;
@@ -1349,63 +1274,91 @@ body {
     transform: rotate(10deg);
 }
 
-/* --- Main Footer Styles --- */
-
-/* 1. Subscription Form Area (The large colored block) */
+/* Footer */
+/* --- 1. Subscription Form Area (Upper Footer) --- */
 .subscribe-area {
-    background-color: #F5F5DC; /* Warm Italian cream */
-    color: #333;
+    /* Зміна на червоний фон */
+    background-color: #DA291C; 
+    color: white; /* Білий текст для контрасту */
     padding: 100px 0;
 }
 
 .subscribe-title {
+    /* Заголовок стає білим */
+    color: white; 
     font-size: 3rem;
     font-weight: 900;
-    color: #333;
 }
 
 .subscribe-text {
+    /* Текст під заголовком також білий */
+    color: white;
     max-width: 600px;
     margin: 0 auto 30px;
-    color: #333;
 }
 
 .subscribe-form {
     max-width: 900px;
 }
 
+/* Корекція форми: поля вводу мають бути світлими */
 .subscribe-form .form-control {
+    background-color: white;
+    color: #333; /* Темний текст у полі вводу */
     height: 50px;
     border-radius: 40px;
     border: none;
+    padding: 0 20px;
 }
 
+.subscribe-form .form-control::placeholder {
+    color: #999; /* Сірий колір для placeholder */
+}
+
+/* Корекція кнопки Submit */
 .btn-submit {
-    height: 50px;
-    background-color: #333;
+    background-color: #333; /* Темна кнопка Submit */
     color: white;
-    border-radius: 40px;
     font-weight: bold;
+    height: 50px;
+    border-radius: 40px;
     border: none;
     transition: all 0.3s ease;
 }
 
 .btn-submit:hover {
     background-color: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* 2. Footer Details Area (Darker section) */
+/* Корекція тексту чекбокса */
+.subscribe-area .form-check-label {
+    color: white;
+}
+
+.subscribe-area .form-check-input {
+    background-color: white;
+    border-color: white;
+}
+
+.subscribe-area .form-check-input:checked {
+    background-color: #333;
+    border-color: #333;
+}
+
 .footer-details-area {
     background-color: #28242A;
     color: white;
 }
 
+/* Заголовки */
 .footer-heading {
+    color: white; /* Заголовки білі */
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-transform: uppercase;
     font-size: 1rem;
-    color: white;
 }
 
 .footer-links {
@@ -1414,16 +1367,21 @@ body {
     margin: 0;
 }
 
-.footer-links a, .contact-info {
-    color: #CCCCCC;
+/* Зробіть основний текст більш світлим */
+.footer-links a,
+.contact-info,
+.small {
+    /* Зробіть колір світлішим, ніж #CCCCCC, щоб краще читалося на темному фоні */
+    color: #EAEAEA; 
+    line-height: 1.8; /* Збільште міжрядковий інтервал для комфорту */
+    font-size: 1rem; /* Збільште розмір шрифту */
     text-decoration: none;
-    line-height: 2;
-    font-size: 0.95rem;
     transition: color 0.2s;
 }
 
+/* Посилання (hover) */
 .footer-links a:hover {
-    color: #DA291C;
+    color: #DA291C; /* Червоний hover для брендингу */
 }
 
 .contact-info {
@@ -1431,7 +1389,6 @@ body {
     margin: 0;
 }
 
-/* Small Subscribe Form (Column 2) */
 .small-subscribe-form {
     align-items: center;
 }
@@ -1468,7 +1425,6 @@ body {
     color: #DA291C;
 }
 
-/* 3. Final Branding Area */
 .footer-branding-area {
     background-color: #222;
     color: #999;
@@ -1479,11 +1435,31 @@ body {
     text-decoration: underline;
 }
 
-/* --- Mobile Responsive Styles --- */
+/* Responsive Styles */
+@media (min-width: 1200px) {
+    #popular-scroll {
+        padding: 50px 80px;
+        gap: 10rem; /* Дуже щедрий простір для десктопів - ефект якості */
+    }
+    
+    .popular-item {
+        min-width: 160px;
+        height: 210px;
+    }
+    
+    .star-red,
+    .star-green,
+    .star-gold,
+    .star-orange,
+    .star-purple,
+    .star-blue,
+    .star-pink {
+        width: 420px;
+        height: 420px;
+    }
+}
 
-/* Tablets and below (max-width: 992px) */
 @media (max-width: 992px) {
-    /* Hero slider adjustments */
     .slide-title {
         font-size: 3rem;
     }
@@ -1492,12 +1468,17 @@ body {
         max-width: 60%;
     }
     
-    /* Running strip */
+    .slide-image-container {
+        width: 400px;  /* Проміжний розмір для планшетів */
+        height: 400px;
+        max-width: 85vw;
+        max-height: 60vh;
+    }
+    
     .running-text {
         font-size: 0.8rem;
     }
     
-    /* Highlight section */
     .highlight-word {
         font-size: 3.5vw;
     }
@@ -1510,21 +1491,23 @@ body {
     
     .highlight-star-left,
     .highlight-star-right {
-        width: 280px;
-        height: 280px;
+        width: 250px; /* Пропорційно зображенню 200px */
+        height: 250px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%); /* Центруємо зірку */
     }
     
-    /* Menu section */
     .popular-item {
         min-width: 200px;
         height: 280px;
     }
     
     #popular-scroll {
-        gap: 3rem !important;
+        gap: 6rem !important; /* Збільшено простір для планшетів */
+        padding: 30px 40px;
     }
     
-    /* Philosophy section */
     .philosophy-title {
         font-size: 3.5rem;
     }
@@ -1539,9 +1522,7 @@ body {
     }
 }
 
-/* Mobile devices (max-width: 768px) */
 @media (max-width: 768px) {
-    /* Header */
     .logo-text {
         font-size: 1.2rem;
     }
@@ -1561,7 +1542,6 @@ body {
         padding: 6px 12px;
     }
     
-    /* Hero slider */
     .slide-title {
         font-size: 2rem;
         margin-bottom: 15px;
@@ -1572,12 +1552,18 @@ body {
         margin: 20px 0;
     }
     
+    .slide-image-container {
+        width: 350px;  /* Зменшення для мобільних пристроїв */
+        height: 350px;
+        max-width: 80vw; /* Обмеження ширини екрана */
+        max-height: 50vh; /* Обмеження висоти екрана */
+    }
+    
     .slide-cta button {
         font-size: 0.9rem;
         padding: 10px 20px;
     }
     
-    /* Navigation buttons for hero */
     .swiper.mySwiper .swiper-button-next,
     .swiper.mySwiper .swiper-button-prev {
         width: 40px;
@@ -1585,7 +1571,6 @@ body {
         font-size: 16px;
     }
     
-    /* Running strip */
     .running-strip {
         height: 25px;
     }
@@ -1595,23 +1580,140 @@ body {
         padding-top: 3px;
     }
     
-    /* Instagram section */
-    .instagram-section {
-        padding-top: 60px;
-        padding-bottom: 60px;
+    .menu-categories-section .container {
+        padding: 0 10px;
     }
     
-    .instagram-card-slide {
-        width: 250px !important;
-        height: 300px;
+    #popular-scroll {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 450px;
+        padding: 30px 20px;
+        gap: 4rem; /* Більший простір для мобільних */
     }
     
-    .myInstagramSwiper {
-        padding-left: 3vw;
-        padding-right: 3vw;
+    .popular-item-wrapper:not(.active) {
+        opacity: 0;
+        transform: scale(0.8);
+        pointer-events: none;
+        position: absolute;
     }
     
-    /* Highlight section */
+    .popular-item-wrapper.active {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+        position: relative;
+    }
+    
+    .popular-item {
+        min-width: 140px !important;
+        height: 190px !important;
+    }
+    
+    .decorative-bg {
+        width: 450px !important;
+        height: 450px !important;
+    }
+    
+    .popular-item-wrapper.active .popular-item {
+        transform: scale(1.3) !important; /* Ще більше на мобільних */
+        filter: brightness(1.3) saturate(1.4) contrast(1.2) !important;
+        box-shadow: none !important; /* Тіні прибрано */
+    }
+    
+    /* Збільшено розмір зірок на мобільних, щоб вони були видимі за стравою */
+    .decorative-bg {
+        width: 500px !important; /* Збільшено для видимості */
+        height: 500px !important;
+        z-index: 0 !important; /* Під стравою */
+    }
+    
+    .popular-item {
+        z-index: 1 !important; /* Над зіркою */
+    }
+    
+    .popular-item-wrapper.active .decorative-bg {
+        animation: starGlowMobile 2s ease-in-out infinite !important;
+        opacity: 1 !important;
+        filter: brightness(1.5) !important;
+        /* Видалено transform: scale(1), щоб анімація працювала повністю */
+    }
+    
+    @keyframes starGlowMobile {
+        0% {
+            transform: scale(1) rotate(0deg);
+            opacity: 0.9;
+            filter: brightness(1.4);
+        }
+        25% {
+            transform: scale(1.1) rotate(90deg);
+            opacity: 0.95;
+            filter: brightness(1.5);
+        }
+        50% {
+            transform: scale(1.2) rotate(180deg);
+            opacity: 1;
+            filter: brightness(1.7);
+        }
+        75% {
+            transform: scale(1.1) rotate(270deg);
+            opacity: 0.95;
+            filter: brightness(1.5);
+        }
+        100% {
+            transform: scale(1) rotate(360deg);
+            opacity: 0.9;
+            filter: brightness(1.4);
+        }
+    }
+    
+    /* Для highlight-star на мобільних - центрування з анімацією */
+    .highlight-star-left,
+    .highlight-star-right {
+        transform: translate(-50%, -50%);
+        transform-origin: center center;
+    }
+    
+    .popular-item-wrapper:hover .decorative-bg,
+    .popular-item-wrapper:active .decorative-bg {
+        animation: starGlowMobile 1.2s ease-in-out infinite !important;
+        opacity: 1 !important;
+        filter: brightness(1.5) !important;
+    }
+    
+    /* Touch events для мобільних */
+    .popular-item-wrapper {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        overflow: visible !important; /* Важливо для мобільних */
+    }
+    
+    .popular-item-wrapper:active .popular-item {
+        transform: scale(1.2) !important;
+        filter: brightness(1.2) saturate(1.2) !important;
+    }
+    
+    /* Додатково для запуску анімації при торканні - працює на мобільних */
+    .popular-item-wrapper:active .decorative-bg {
+        animation: starGlowMobile 1.2s ease-in-out infinite !important;
+        opacity: 1 !important;
+        filter: brightness(1.6) !important;
+    }
+    
+    /* Для неактивних страв при торканні */
+    .popular-item-wrapper:not(.active):active .decorative-bg {
+        animation: starGlowMobile 1s ease-in-out infinite !important;
+        opacity: 0.8 !important;
+    }
+    
+    /* Контейнер має дозволяти видимість зірок */
+    #popular-scroll {
+        overflow-x: auto;
+        overflow-y: visible !important;
+    }
+    
     .highlight-section {
         min-height: 35vh;
         padding: 40px 10px;
@@ -1630,21 +1732,47 @@ body {
     .highlight-image-right {
         width: 150px;
         height: 150px;
+        /* Плавні переходи для мобільних */
+        transform: scale(0.8) translateY(15px); /* Початкове положення */
+        transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), 
+                     transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .highlight-image-left.active,
+    .highlight-image-right.active {
+        transform: scale(1) translateY(0); /* Плавна поява на мобільних */
     }
     
     .highlight-star-left,
     .highlight-star-right {
-        width: 200px;
+        width: 200px; /* Пропорційно зображенню 150px */
         height: 200px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%); /* Центруємо зірку */
+        opacity: 0; /* Початково невидима на мобільних */
+        transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    /* Menu section */
+    .highlight-image-left.active .highlight-star-left,
+    .highlight-image-right.active .highlight-star-right {
+        opacity: 0.6; /* Поява зірки на мобільних */
+    }
+    
+    .highlight-word {
+        /* Плавні переходи тексту для мобільних */
+        transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                   transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
     .menu-section-title {
         font-size: 1.8rem;
         padding-top: 10px;
         padding: 0 15px;
         margin-bottom: 25px;
         text-align: center;
+        color: #333; /* Темний текст на світлому фоні */
+        text-shadow: none;
     }
     
     .popular-item {
@@ -1653,22 +1781,18 @@ body {
     }
     
     #popular-scroll {
-        gap: 2rem !important;
-        padding: 0 20px;
+        gap: 4rem !important; /* Збільшено простір для мобільних */
+        padding: 25px 15px;
     }
     
     .popular-item-wrapper {
+        margin: 15px 0;
+        padding: 8px;
         min-width: 120px;
     }
     
     .decorative-bg {
         width: 180px;
-        height: 180px;
-    }
-    
-    /* Menu item cards */
-    .menu-item-img {
-        max-width: 85%;
         height: 180px;
     }
     
@@ -1683,23 +1807,25 @@ body {
         height: 200px;
     }
     
-    /* Increase opacity for better visibility on mobile */
     .popular-item-wrapper .decorative-bg {
-        opacity: 0.7;
+        opacity: 0.9;
     }
     
-    /* Make active star more visible on mobile */
     .popular-item-wrapper.active .decorative-bg {
         opacity: 1 !important;
     }
     
-    /* Menu buttons */
-    #most-popular .btn-outline-danger {
-        font-size: 0.9rem;
-        padding: 8px 20px;
+    .menu-content-container {
+        padding: 25px 15px;
+        border-radius: 15px;
+        margin-top: 15px;
     }
     
-    /* Recipes section buttons */
+    .menu-slider-visual-wrapper {
+        padding: 0;
+    }
+    
+    .menu-content-container .btn-outline-danger,
     .recipes-section .btn-outline-danger {
         font-size: 0.9rem;
         padding: 8px 20px;
@@ -1710,31 +1836,68 @@ body {
         padding-bottom: 60px;
     }
     
+    /* Зменшена ширина затухання для планшетів */
+    .recipes-section::before,
+    .recipes-section::after {
+        width: 100px;
+    }
+    
     .recipe-card-slide {
         width: 260px !important;
         height: 380px;
+        margin: 0;
+        border-radius: 20px; /* Збережуємо закруглені кути */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Тінь для червоних карток */
     }
     
-    /* Menu categories section */
     .menu-categories-section {
         min-height: 400px;
         padding: 30px 0;
     }
     
-    /* Footer */
+    .instagram-section {
+        padding-top: 40px;
+        padding-bottom: 0; /* Зберігаємо нижню червону смугу */
+    }
+    
+    .instagram-section .recipes-title {
+        color: #333; /* Темний колір на планшетах */
+        text-shadow: none;
+    }
+    
+    /* Зменшена ширина затухання для Instagram на планшетах */
+    .instagram-section::before,
+    .instagram-section::after {
+        width: 100px;
+    }
+    
+    .instagram-card-slide {
+        width: 260px !important; /* Такий самий як recipe-card-slide на планшетах */
+        height: 380px;
+    }
+    
+    .myInstagramSwiper {
+        padding-left: 3vw;
+        padding-right: 3vw;
+    }
+    
     .subscribe-area {
         padding: 60px 0;
     }
     
     .subscribe-title {
         font-size: 2rem;
+        color: white; /* Білий текст на планшетах */
+    }
+    
+    .subscribe-text {
+        color: white; /* Білий текст на планшетах */
     }
     
     .footer-details-area {
         padding: 40px 0;
     }
     
-    /* Philosophy section */
     .philosophy-section {
         padding-top: 50px;
         padding-bottom: 50px;
@@ -1805,9 +1968,7 @@ body {
     }
 }
 
-/* Small mobile devices (max-width: 576px) */
 @media (max-width: 576px) {
-    /* Header */
     .navbar-brand {
         font-size: 1rem;
     }
@@ -1823,12 +1984,10 @@ body {
         padding: 5px 10px;
     }
     
-    /* Hide navigation arrows on small screens */
     .nav-link {
         display: none;
     }
     
-    /* Hero slider */
     .slide-title {
         font-size: 1.5rem;
     }
@@ -1839,11 +1998,12 @@ body {
     }
     
     .slide-image-container {
-        width: 50vh;
-        height: 50vh;
+        width: 300px;  /* Зменшений розмір для маленьких мобільних пристроїв */
+        height: 300px;
+        max-width: 85vw; /* Обмеження для дуже маленьких екранів */
+        max-height: 45vh; /* Обмеження висоти на мобільних */
     }
     
-    /* Navigation buttons for hero */
     .swiper.mySwiper .swiper-button-next,
     .swiper.mySwiper .swiper-button-prev {
         width: 35px;
@@ -1851,7 +2011,6 @@ body {
         font-size: 14px;
     }
     
-    /* Running strip */
     .running-strip {
         height: 22px;
     }
@@ -1860,30 +2019,6 @@ body {
         font-size: 0.65rem;
     }
     
-    /* Instagram section - small mobile */
-    .instagram-section {
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
-    
-    .instagram-card-slide {
-        width: 220px !important;
-        height: 280px;
-    }
-    
-    .myInstagramSwiper {
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-top: 30px;
-        padding-bottom: 30px;
-    }
-    
-    .instagram-card::before {
-        width: 60px !important;
-        height: 60px !important;
-    }
-    
-    /* Highlight section */
     .highlight-section {
         min-height: 30vh;
         padding: 30px 5px;
@@ -1898,6 +2033,11 @@ body {
     .highlight-image-right {
         width: 120px;
         height: 120px;
+        /* Плавні переходи для маленьких мобільних */
+        transform: scale(0.75) translateY(10px); /* Початкове положення для маленьких екранів */
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                     transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: visible !important; /* Дозволяє зіркам бути видимими на мобільних */
     }
     
     .highlight-image-left {
@@ -1910,23 +2050,43 @@ body {
         right: 5%;
     }
     
-    /* Menu section */
+    .highlight-image-left.active,
+    .highlight-image-right.active {
+        transform: scale(1) translateY(0); /* Плавна поява на маленьких мобільних */
+    }
+    
+    .highlight-star-left,
+    .highlight-star-right {
+        width: 200px; /* Пропорційно зображенню 120px, як в popular-item (400px для popular-item 100px = 4x) */
+        height: 200px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%); /* Центруємо зірку */
+        opacity: 0; /* Початково невидима на маленьких мобільних */
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .highlight-image-left.active .highlight-star-left,
+    .highlight-image-right.active .highlight-star-right {
+        opacity: 0.6; /* Поява зірки на маленьких мобільних */
+    }
+    
+    .highlight-word {
+        /* Плавні переходи тексту для маленьких мобільних */
+        transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                   transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
     .menu-section-title {
         font-size: 1.5rem;
         margin-bottom: 20px;
-    }
-    
-    .popular-item {
-        min-width: 100px;
-        height: 130px;
-    }
-    
-    #popular-scroll {
-        gap: 1.5rem !important;
-        padding: 0 10px;
+        color: #333; /* Темний текст на світлому фоні */
+        text-shadow: none;
     }
     
     .popular-item-wrapper {
+        margin: 10px 0;
+        padding: 5px;
         min-width: 100px;
     }
     
@@ -1942,35 +2102,129 @@ body {
     .star-purple,
     .star-blue,
     .star-pink {
-        width: 180px;
-        height: 180px;
+        width: 400px !important; /* Збільшено для видимості */
+        height: 400px !important;
     }
     
-    /* Even higher opacity for small mobile */
+    /* Трохи зменшені зірки для маленьких мобільних */
+    .decorative-bg {
+        width: 350px !important; /* Зменшено з 400px до 350px */
+        height: 350px !important;
+        z-index: 0 !important;
+    }
+    
+    .popular-item {
+        z-index: 1 !important;
+    }
+    
+    .popular-item-wrapper {
+        overflow: visible !important;
+    }
+    
+    #popular-scroll {
+        overflow-y: visible !important;
+    }
+    
     .popular-item-wrapper .decorative-bg {
-        opacity: 0.8;
+        opacity: 0.95;
     }
     
-    /* Make active star more visible on small mobile */
     .popular-item-wrapper.active .decorative-bg {
         opacity: 1 !important;
+        animation: starGlowMobile 1.5s ease-in-out infinite !important;
+        filter: brightness(1.5) !important;
     }
     
-    /* Menu buttons */
-    #most-popular .btn-outline-danger {
-        font-size: 0.8rem;
-        padding: 6px 15px;
-        margin: 5px;
+    /* Touch анімація для маленьких мобільних */
+    .popular-item-wrapper:active .decorative-bg {
+        animation: starGlowMobile 1.2s ease-in-out infinite !important;
+        opacity: 1 !important;
+        filter: brightness(1.6) !important;
     }
     
-    /* Recipes section buttons */
+    .menu-content-container {
+        padding: 20px 10px;
+        border-radius: 12px;
+        margin-top: 10px;
+    }
+    
+    .menu-slider-visual-wrapper {
+        padding: 0;
+    }
+    
+    .menu-content-container .btn-outline-danger,
     .recipes-section .btn-outline-danger {
         font-size: 0.8rem;
         padding: 6px 15px;
         margin: 5px;
     }
     
-    /* Philosophy section */
+    .recipes-section {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    
+    /* Менша ширина затухання для мобільних */
+    .recipes-section::before,
+    .recipes-section::after {
+        width: 60px;
+    }
+    
+    .recipes-title {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+    
+    .recipe-card-slide {
+        width: 260px !important;
+        height: 360px;
+        margin: 0;
+        border-radius: 20px; /* Збережуємо закруглені кути */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Тінь для червоних карток */
+    }
+    
+    .recipe-name {
+        font-size: 1.1rem;
+    }
+    
+    .recipe-btn {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+    
+    .instagram-section {
+        padding-top: 30px;
+        padding-bottom: 0; /* Зберігаємо нижню червону смугу */
+    }
+    
+    .instagram-section .recipes-title {
+        color: #333; /* Темний колір на мобільних */
+        text-shadow: none;
+    }
+    
+    /* Менша ширина затухання для Instagram на мобільних */
+    .instagram-section::before,
+    .instagram-section::after {
+        width: 60px;
+    }
+    
+    .instagram-card-slide {
+        width: 260px !important; /* Такий самий як recipe-card-slide на мобільних */
+        height: 360px;
+    }
+    
+    .myInstagramSwiper {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    
+    .instagram-card::before {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    
     .philosophy-section {
         padding-top: 40px;
         padding-bottom: 40px;
@@ -2016,70 +2270,18 @@ body {
         font-size: 0.9rem;
     }
     
-    .philosophy-text-content .lead {
-        font-size: 1rem;
-    }
-    
-    /* Recipes section */
-    .recipes-section {
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
-    
-    .recipes-title {
-        font-size: 2.5rem;
-    }
-    
-    .recipe-card-slide {
-        width: 220px !important;
-        height: 340px;
-    }
-    
-    .recipe-name {
-        font-size: 1.1rem;
-    }
-    
-    .recipe-btn {
-        font-size: 0.85rem;
-        padding: 6px 12px;
-    }
-    
-    /* Recipes section for small mobile (576px) */
-    .recipes-section {
-        padding-top: 50px;
-        padding-bottom: 50px;
-    }
-    
-    .recipes-title {
-        font-size: 2rem;
-        margin-bottom: 30px;
-    }
-    
-    .recipe-card-slide {
-        width: 180px !important;
-        height: 300px;
-    }
-    
-    .recipe-name {
-        font-size: 0.95rem;
-    }
-    
-    .recipe-btn {
-        font-size: 0.75rem;
-        padding: 5px 10px;
-    }
-    
-    /* Footer for small mobile */
     .subscribe-area {
         padding: 40px 0;
     }
     
     .subscribe-title {
         font-size: 1.5rem;
+        color: white; /* Білий текст на мобільних */
     }
     
     .subscribe-text {
         font-size: 0.9rem;
+        color: white; /* Білий текст на мобільних */
     }
     
     .footer-details-area {
@@ -2089,15 +2291,18 @@ body {
     .footer-heading {
         font-size: 0.9rem;
         margin-bottom: 15px;
+        color: white; /* Білі заголовки на мобільних */
     }
     
     .footer-links a,
-    .contact-info {
-        font-size: 0.85rem;
+    .contact-info,
+    .small {
+        font-size: 0.9rem; /* Трохи збільшено для кращої читабельності на мобільних */
+        color: #EAEAEA; /* Світлий колір на мобільних */
+        line-height: 1.8;
     }
 }
 
-/* Landscape mobile orientation */
 @media (max-width: 768px) and (orientation: landscape) {
     .hero-slider {
         height: 100vh;
@@ -2118,5 +2323,52 @@ body {
     
     .philosophy-title {
         font-size: 2rem;
+    }
+}
+
+/* --- Mobile Optimization: Highlights Section Stars (Max Width 768px) --- */
+@media (max-width: 768px) {
+    .highlight-image-left,
+    .highlight-image-right {
+        /* ЗМЕНШЕННЯ РОЗМІРУ до 120px */
+        width: 120px !important; 
+        height: 120px !important;
+        /* Плавні переходи для мобільних landscape */
+        transform: scale(0.75) translateY(10px) !important;
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                     transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    /* Корегування фінальної позиції для меншого екрана */
+    .highlight-image-left.active {
+        top: 0%; 
+        left: 0%; /* Приближаємо до кута */
+        transform: scale(1) translateY(0) !important; /* Плавна поява */
+    }
+
+    .highlight-image-right.active {
+        bottom: 0%; 
+        right: 0%; /* Приближаємо до кута */
+        transform: scale(1) translateY(0) !important; /* Плавна поява */
+    }
+    
+    /* Корегування розміру зірок для менших зображень */
+    .highlight-star-left,
+    .highlight-star-right {
+        width: 150px !important; /* Зменшено пропорційно до 120px зображення */
+        height: 150px !important;
+        opacity: 0 !important; /* Початково невидима */
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    .highlight-image-left.active .highlight-star-left,
+    .highlight-image-right.active .highlight-star-right {
+        opacity: 0.6 !important; /* Поява зірки */
+    }
+    
+    /* Якщо текст занадто близько, додайте відступи до нього */
+    .highlight-content {
+        padding: 30px 15px;
+        max-width: 100%;
     }
 }

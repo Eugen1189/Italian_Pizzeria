@@ -1,17 +1,88 @@
 <!DOCTYPE html>
-<html lang="IT">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Vera Pizza - Autentica Pizzeria Italiana</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="La Vera Pizza - Autentica Pizzeria Italiana con ingredienti freschi, mozzarella premium e tradizione italiana. Ordina la tua pizza napoletana preferita.">
+    <meta name="keywords" content="pizzeria italiana, pizza napoletana, pizza margherita, pizza diavola, ingredienti freschi, mozzarella, Roma, ordina pizza online">
+    <meta name="author" content="La Vera Pizza">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="La Vera Pizza - Autentica Pizzeria Italiana">
+    <meta property="og:description" content="Pizzeria italiana tradizionale con ingredienti freschi e mozzarella premium">
+    <meta property="og:url" content="https://laverapizza.it">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="La Vera Pizza - Autentica Pizzeria Italiana">
+    <meta name="twitter:description" content="Pizzeria italiana tradizionale con ingredienti freschi e mozzarella premium">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <link rel="stylesheet" href="css/style.css">
+    <!-- Critical CSS - Inline для швидкого рендерингу -->
+    <style>
+        /* Critical: Base Styles */
+        html,body{margin:0;padding:0;font-family:sans-serif;overflow-x:hidden;width:100%;max-width:100%}
+        body{max-width:100%;padding-top:90px}
+        *{box-sizing:border-box;-webkit-animation-fill-mode:both;animation-fill-mode:both}
+        .container-fluid{max-width:100%;overflow-x:hidden}
+        section{max-width:100%;overflow-x:hidden}
+        
+        /* Critical: Header */
+        .main-header{position:fixed;top:0;left:0;right:0;background-color:rgba(139,0,0,0.2);z-index:1000;margin:0;padding:0;width:100%;min-height:auto}
+        .navbar{padding:0.15rem 0!important}
+        .navbar-brand{padding:0.25rem 0!important}
+        .logo-text{font-size:1.3rem;font-weight:bold;color:white!important;text-transform:uppercase;font-family:Georgia,serif;letter-spacing:1px}
+        .btn-find-product{background-color:#333;color:white;border:none;padding:5px 12px;border-radius:25px;font-weight:600;text-decoration:none;transition:all 0.3s ease;font-size:0.8rem;margin:0 3px}
+        
+        /* Critical: Running Strip */
+        .running-strip{background-color:#2F2B31;position:fixed;top:60px;left:0;width:100%;margin:0;padding:0;height:30px;overflow:hidden;white-space:nowrap;z-index:999;box-sizing:border-box;max-width:100%}
+        .running-text{display:inline-block;padding-top:5px;color:white;font-size:0.85rem;font-weight:500;text-transform:uppercase;animation:moveMarquee 25s linear infinite;width:max-content;white-space:nowrap}
+        @keyframes moveMarquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        
+        /* Critical: Hero Slider */
+        .hero-slider{width:100%;max-width:100%;height:100vh;margin:0;padding:0;overflow:hidden}
+        .swiper-slide{transition:background-color 0.6s ease;display:flex;flex-direction:column;justify-content:center;align-items:center}
+        .slide-title{font-family:serif;margin-bottom:20px;text-shadow:2px 2px 8px rgba(0,0,0,0.8);font-size:5rem}
+        .slide-image-container{position:relative;display:flex;justify-content:center;align-items:center;width:650px;height:650px;max-width:90vw;max-height:90vh;margin:40px 0}
+        .slide-image{position:relative;max-width:90%;width:90%;height:auto;border-radius:50%;box-shadow:0 0 40px rgba(0,0,0,0.3);z-index:10;margin:0;align-self:center;flex-shrink:0;object-fit:cover}
+        .hero-cta-btn{background-color:white;color:#333;border-radius:40px;padding:10px 30px;font-weight:bold;border:2px solid #DA291C;box-shadow:0 5px 15px rgba(0,0,0,0.3);transition:all 0.2s ease}
+        .slide-margherita,.slide-diavola,.slide-formaggi{background:linear-gradient(90deg,#008C45 0%,#008C45 33.33%,#FFFFFF 33.33%,#FFFFFF 66.66%,#CD212A 66.66%,#CD212A 100%);position:relative;overflow:hidden}
+        
+        /* Mobile Critical Styles */
+        @media (max-width:992px){
+            .slide-image-container{width:400px;height:400px;max-width:85vw;max-height:60vh}
+        }
+        @media (max-width:768px){
+            .slide-title{font-size:2rem;margin-bottom:15px}
+            .slide-image{max-width:70%;margin:20px 0}
+            .slide-image-container{width:350px;height:350px;max-width:80vw;max-height:50vh}
+            .running-strip{height:25px}
+            .logo-text{font-size:1.2rem}
+        }
+        @media (max-width:576px){
+            .slide-title{font-size:1.5rem}
+            .slide-image{max-width:80%}
+            .slide-image-container{width:300px;height:300px;max-width:85vw;max-height:45vh}
+            .running-strip{height:22px}
+            .navbar-brand{font-size:1rem}
+        }
+    </style>
+    
+    <!-- External CSS - Async Loading -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"></noscript>
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    
+    <link rel="preload" href="css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/style.css"></noscript>
 </head>
 <body>
 
@@ -39,7 +110,11 @@
                 <h1 class="display-1 text-white slide-title">AUTENTICA MARGHERITA</h1>
                 
                 <div class="slide-image-container">
-                    <img src="img/pizza_margherita.jpg.png" alt="Pizza Margherita" class="slide-image">
+                    <img src="img/pizza_margherita.jpg.png" 
+                         srcset="img/pizza_margherita.jpg.png 1x, img/pizza_margherita.jpg.png 2x"
+                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+                         alt="Pizza Margherita" 
+                         class="slide-image">
                 </div>
                 
                 <div class="slide-cta">
@@ -51,7 +126,11 @@
                 <h1 class="display-1 text-white slide-title">PICANTE DIAVOLA</h1>
                 
                 <div class="slide-image-container">
-                    <img src="img/pizza_diavola.jpg.png" alt="Pizza Diavola" class="slide-image">
+                    <img src="img/pizza_diavola.jpg.png" 
+                         srcset="img/pizza_diavola.jpg.png 1x, img/pizza_diavola.jpg.png 2x"
+                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+                         alt="Pizza Diavola" 
+                         class="slide-image">
                 </div>
                 
                 <div class="slide-cta">
@@ -63,7 +142,11 @@
                 <h1 class="display-1 slide-title">RICCA QUATTRO FORMAGGI</h1>
                 
                 <div class="slide-image-container">
-                    <img src="img/pizza_quattro_formaggi.jpg.png" alt="Pizza Quattro Formaggi" class="slide-image">
+                    <img src="img/pizza_quattro_formaggi.jpg.png" 
+                         srcset="img/pizza_quattro_formaggi.jpg.png 1x, img/pizza_quattro_formaggi.jpg.png 2x"
+                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+                         alt="Pizza Quattro Formaggi" 
+                         class="slide-image">
                 </div>
                 
                 <div class="slide-cta">
@@ -85,50 +168,53 @@
     </div>
 
     <section class="menu-categories-section py-5">
-        <div class="container">
-            <h2 class="text-center mb-5 menu-section-title">IL NOSTRO MENU</h2>
+        <div class="container text-center">
+            <h1 class="menu-section-title">IL NOSTRO MENU</h1>
+        </div>
 
-            <div class="menu-tabs-content">
-                <div id="most-popular" class="category-content active position-relative">
-                    <div class="d-flex flex-nowrap gap-5" id="popular-scroll" style="gap: 4rem !important;">
+        <div class="container">
+            <div class="menu-content-container">
+                <div class="menu-slider-visual-wrapper">
+            <div id="popular-scroll">
                         <div class="popular-item-wrapper">
                             <div class="decorative-bg star-red"></div>
-                            <img src="img/pizza_margherita.jpg.png" alt="Margherita" class="popular-item">
+                            <img src="img/pizza_margherita.jpg.png" alt="Margherita" class="popular-item" loading="lazy">
                         </div>
                         <div class="popular-item-wrapper active">
                             <div class="decorative-bg star-green"></div>
-                            <img src="img/pizza_diavola.jpg.png" alt="Pizza Diavola" class="popular-item">
+                            <img src="img/pizza_diavola.jpg.png" alt="Pizza Diavola" class="popular-item" loading="lazy">
                         </div>
                         <div class="popular-item-wrapper">
                             <div class="decorative-bg star-gold"></div>
-                            <img src="img/pizza_quattro_formaggi.jpg.png" alt="Pizza Quattro Formaggi" class="popular-item">
+                            <img src="img/pizza_quattro_formaggi.jpg.png" alt="Pizza Quattro Formaggi" class="popular-item" loading="lazy">
                         </div>
                         <div class="popular-item-wrapper">
                             <div class="decorative-bg star-orange"></div>
-                            <img src="img/antipasto_caprese.jpg.png" alt="Insalata Caprese" class="popular-item">
+                            <img src="img/antipasto_caprese.jpg.png" alt="Insalata Caprese" class="popular-item" loading="lazy">
                         </div>
                         <div class="popular-item-wrapper">
                             <div class="decorative-bg star-purple"></div>
-                            <img src="img/antipasto_caprese.jpg.png" alt="Bruschetta" class="popular-item">
+                            <img src="img/antipasto_caprese.jpg.png" alt="Bruschetta" class="popular-item" loading="lazy">
                         </div>
                         <div class="popular-item-wrapper">
                             <div class="decorative-bg star-blue"></div>
-                            <img src="img/pasta_carbonara.jpg.png" alt="Pasta Carbonara" class="popular-item">
+                            <img src="img/pasta_carbonara.jpg.png" alt="Pasta Carbonara" class="popular-item" loading="lazy">
                         </div>
                         <div class="popular-item-wrapper">
                             <div class="decorative-bg star-pink"></div>
-                            <img src="img/dessert_tiramisu.jpg.png" alt="Tiramisù" class="popular-item">
+                            <img src="img/dessert_tiramisu.jpg.png" alt="Tiramisù" class="popular-item" loading="lazy">
                         </div>
                     </div>
-                    <div class="text-center mt-4">
-                        <button class="btn btn-outline-danger me-3" onclick="scrollLeftMenu()">
-                            <i class="fas fa-chevron-left me-2"></i>Indietro
-                        </button>
-                        <button class="btn btn-outline-danger" onclick="scrollRightMenu()">
-                            Avanti<i class="fas fa-chevron-right ms-2"></i>
-                        </button>
+            </div>
+            
+                <div class="text-center mt-4">
+                    <button class="btn btn-outline-danger me-3" onclick="scrollLeftMenu()" aria-label="Scorri menu a sinistra">
+                        <i class="fas fa-chevron-left me-2" aria-hidden="true"></i>Indietro
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="scrollRightMenu()" aria-label="Scorri menu a destra">
+                        Avanti<i class="fas fa-chevron-right ms-2" aria-hidden="true"></i>
+                    </button>
                     </div>
-                </div>
             </div>
         </div>
     </section>
@@ -137,7 +223,7 @@
         
         <div class="highlight-image-left">
             <div class="decorative-bg highlight-star-left"></div>
-            <img id="highlight-img-left" src="img/pizza_margherita.jpg.png" alt="Featured Pizza Left" class="animated-highlight-img">
+            <img id="highlight-img-left" src="img/pizza_margherita.jpg.png" alt="Pizza Margherita - Ingredienti Freschi" class="animated-highlight-img" loading="lazy">
         </div>
         
         <div class="highlight-content text-center">
@@ -151,7 +237,7 @@
         
         <div class="highlight-image-right">
             <div class="decorative-bg highlight-star-right"></div>
-            <img id="highlight-img-right" src="img/pizza_diavola.jpg.png" alt="Featured Pizza Right" class="animated-highlight-img">
+            <img id="highlight-img-right" src="img/pizza_diavola.jpg.png" alt="Pizza Diavola - Mozzarella Premium" class="animated-highlight-img" loading="lazy">
         </div>
         
     </section>
@@ -168,7 +254,7 @@
                     </h2>
                     
                     <div class="philosophy-image-shelf">
-                        <img src="img/shelf_of_pizzas.webp.png" alt="Pizza tradizionale" class="img-fluid">
+                        <img src="img/shelf_of_pizzas.webp.png" alt="Pizza tradizionale" class="img-fluid" loading="lazy">
                         
                         <div class="philosophy-badge badge-left">
                             <span class="badge-text">
@@ -228,7 +314,7 @@
                         <div class="card-decoration card-deco-chef">
                             <i class="fas fa-utensils"></i>
                         </div>
-                        <img src="img/pizza_margherita.jpg.png" alt="Pizza Margherita" class="recipe-img">
+                        <img src="img/pizza_margherita.jpg.png" alt="Pizza Margherita" class="recipe-img" loading="lazy">
                         <div class="recipe-content">
                             <span class="recipe-time">15 min</span>
                             <p class="recipe-label"><i class="fas fa-check-circle me-1"></i> Vegetariana</p>
@@ -246,7 +332,7 @@
                         <div class="card-decoration card-deco-chef">
                             <i class="fas fa-utensils"></i>
                         </div>
-                        <img src="img/pasta_carbonara.jpg.png" alt="Carbonara" class="recipe-img">
+                        <img src="img/pasta_carbonara.jpg.png" alt="Carbonara" class="recipe-img" loading="lazy">
                         <div class="recipe-content">
                             <span class="recipe-time">25 min</span>
                             <p class="recipe-label"><i class="fas fa-check-circle me-1"></i> Segreto dello Chef</p>
@@ -264,7 +350,7 @@
                         <div class="card-decoration card-deco-chef">
                             <i class="fas fa-utensils"></i>
                         </div>
-                        <img src="img/dessert_tiramisu.jpg.png" alt="Tiramisù" class="recipe-img">
+                        <img src="img/dessert_tiramisu.jpg.png" alt="Tiramisù" class="recipe-img" loading="lazy">
                         <div class="recipe-content">
                             <span class="recipe-time">30 min</span>
                             <p class="recipe-label"><i class="fas fa-check-circle me-1"></i> Dolce Tradizionale</p>
@@ -282,7 +368,7 @@
                         <div class="card-decoration card-deco-chef">
                             <i class="fas fa-utensils"></i>
                         </div>
-                        <img src="img/antipasto_caprese.jpg.png" alt="Caprese" class="recipe-img">
+                        <img src="img/antipasto_caprese.jpg.png" alt="Caprese" class="recipe-img" loading="lazy">
                         <div class="recipe-content">
                             <span class="recipe-time">10 min</span>
                             <p class="recipe-label"><i class="fas fa-check-circle me-1"></i> Antipasto Fresco</p>
@@ -300,7 +386,7 @@
                         <div class="card-decoration card-deco-chef">
                             <i class="fas fa-utensils"></i>
                         </div>
-                        <img src="img/pizza_diavola.jpg.png" alt="Pizza Diavola" class="recipe-img">
+                        <img src="img/pizza_diavola.jpg.png" alt="Pizza Diavola" class="recipe-img" loading="lazy">
                         <div class="recipe-content">
                             <span class="recipe-time">20 min</span>
                             <p class="recipe-label"><i class="fas fa-check-circle me-1"></i> Piccante</p>
@@ -318,7 +404,7 @@
                         <div class="card-decoration card-deco-chef">
                             <i class="fas fa-utensils"></i>
                         </div>
-                        <img src="img/pizza_quattro_formaggi.jpg.png" alt="Quattro Formaggi" class="recipe-img">
+                        <img src="img/pizza_quattro_formaggi.jpg.png" alt="Quattro Formaggi" class="recipe-img" loading="lazy">
                         <div class="recipe-content">
                             <span class="recipe-time">25 min</span>
                             <p class="recipe-label"><i class="fas fa-check-circle me-1"></i> Quattro Formaggi</p>
@@ -342,7 +428,7 @@
 
                 <div class="swiper-slide instagram-card-slide">
                     <div class="instagram-card">
-                        <img src="img/pizza_margherita.jpg.png" alt="Pizza Margherita" class="insta-img">
+                        <img src="img/pizza_margherita.jpg.png" alt="Pizza Margherita" class="insta-img" loading="lazy">
                         <div class="insta-overlay">
                             <i class="fab fa-instagram"></i> @laverapizza
                         </div>
@@ -351,7 +437,7 @@
 
                 <div class="swiper-slide instagram-card-slide">
                     <div class="instagram-card">
-                        <img src="img/pasta_carbonara.jpg.png" alt="Carbonara" class="insta-img">
+                        <img src="img/pasta_carbonara.jpg.png" alt="Carbonara" class="insta-img" loading="lazy">
                         <div class="insta-overlay">
                             <i class="fab fa-instagram"></i> @laverapizza
                         </div>
@@ -360,7 +446,7 @@
                 
                 <div class="swiper-slide instagram-card-slide">
                     <div class="instagram-card">
-                        <img src="img/pizza_diavola.jpg.png" alt="Pizza Diavola" class="insta-img">
+                        <img src="img/pizza_diavola.jpg.png" alt="Pizza Diavola" class="insta-img" loading="lazy">
                         <div class="insta-overlay">
                             <i class="fab fa-instagram"></i> @laverapizza
                         </div>
@@ -369,7 +455,7 @@
 
                 <div class="swiper-slide instagram-card-slide">
                     <div class="instagram-card">
-                        <img src="img/dessert_tiramisu.jpg.png" alt="Tiramisu" class="insta-img">
+                        <img src="img/dessert_tiramisu.jpg.png" alt="Tiramisu" class="insta-img" loading="lazy">
                         <div class="insta-overlay">
                             <i class="fab fa-instagram"></i> @laverapizza
                         </div>
@@ -378,7 +464,7 @@
 
                 <div class="swiper-slide instagram-card-slide">
                     <div class="instagram-card">
-                        <img src="img/antipasto_caprese.jpg.png" alt="Caprese" class="insta-img">
+                        <img src="img/antipasto_caprese.jpg.png" alt="Caprese" class="insta-img" loading="lazy">
                         <div class="insta-overlay">
                             <i class="fab fa-instagram"></i> @laverapizza
                         </div>
@@ -387,7 +473,7 @@
 
                 <div class="swiper-slide instagram-card-slide">
                     <div class="instagram-card">
-                        <img src="img/pizza_quattro_formaggi.jpg.png" alt="Quattro Formaggi" class="insta-img">
+                        <img src="img/pizza_quattro_formaggi.jpg.png" alt="Quattro Formaggi" class="insta-img" loading="lazy">
                         <div class="insta-overlay">
                             <i class="fab fa-instagram"></i> @laverapizza
                         </div>
@@ -396,7 +482,7 @@
 
                 <div class="swiper-slide instagram-card-slide">
                     <div class="instagram-card">
-                        <img src="img/shelf_of_pizzas.webp.png" alt="Shelf of Pizzas" class="insta-img">
+                        <img src="img/shelf_of_pizzas.webp.png" alt="Shelf of Pizzas" class="insta-img" loading="lazy">
                         <div class="insta-overlay">
                             <i class="fab fa-instagram"></i> @laverapizza
                         </div>
@@ -405,7 +491,7 @@
 
                 <div class="swiper-slide instagram-card-slide">
                     <div class="instagram-card">
-                        <img src="img/pizza_margherita.jpg.png" alt="Pizza Margherita" class="insta-img">
+                        <img src="img/pizza_margherita.jpg.png" alt="Pizza Margherita" class="insta-img" loading="lazy">
                         <div class="insta-overlay">
                             <i class="fab fa-instagram"></i> @laverapizza
                         </div>
@@ -514,11 +600,15 @@
 
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- LoadCSS Polyfill для старих браузерів -->
+    <script>
+        !function(e){"use strict";var t=function(t,n,o){var i,r=e.document,a=r.createElement("link");if(n)i=n;else{var l=(r.body||r.getElementsByTagName("head")[0]).childNodes;i=l[l.length-1]}var s=r.styleSheets;a.rel="stylesheet",a.href=t,a.media="only x",function e(t){if(r.body)return t();setTimeout(function(){e(t)})}(function(){i.parentNode.insertBefore(a,n?i:i.nextSibling)});var f=function(e){for(var t=a.href,n=s.length;n--;)if(s[n].href===t)return e();setTimeout(function(){f(e)})};return a.addEventListener&&a.addEventListener("load",function(){this.media=o||"all"}),a.onloadcssdefined=f,f(function(){a.media!==o&&(a.media=o||"all")}),a};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);
+    </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-    <script src="js/script.js"></script>
+    <!-- JavaScript - Deferred для неблокуючого завантаження -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script defer src="js/script.js"></script>
 </body>
 </html>
 
