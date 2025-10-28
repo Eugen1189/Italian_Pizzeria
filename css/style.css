@@ -66,6 +66,27 @@ body {
 
 .navbar {
     padding: 0.15rem 0 !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header-left {
+    flex: 0 0 auto;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex: 0 0 auto;
 }
 
 .navbar-brand {
@@ -156,13 +177,13 @@ body {
 .highlight-image-left,
 .highlight-image-right {
     position: absolute;
-    width: 300px; 
-    height: 300px;
+    width: 400px; /* Збільшено з 300px до 400px */
+    height: 400px; /* Збільшено з 300px до 400px */
     z-index: 1; 
     opacity: 0; 
     transform: scale(0.8) translateY(20px); /* Початкове положення для плавної появи */
-    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 1s cubic-bezier(0.4, 0, 0.2, 1); /* Плавна кубічна крива Безьє */
+    transition: opacity 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Більш плавна кубічна крива (ease-out) */
     overflow: visible; /* Дозволяє зіркам бути видимими */
 }
 
@@ -192,12 +213,12 @@ body {
 .highlight-star-left,
 .highlight-star-right {
     position: absolute;
-    width: 400px;
-    height: 400px;
+    width: 500px; /* Збільшено з 400px до 500px пропорційно зображенню */
+    height: 500px; /* Збільшено з 400px до 500px пропорційно зображенню */
     z-index: 0;
     opacity: 0; /* Початково невидима */
-    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Плавна поява */
-    animation: starGlowHighlight 2s ease-in-out infinite;
+    transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Більш плавна поява */
+    animation: starGlowHighlight 3s ease-in-out infinite; /* Більш повільна анімація */
     left: 50%;
     top: 50%;
     transform-origin: center center; /* Встановлюємо центр обертання */
@@ -230,8 +251,8 @@ body {
     font-weight: 900;
     color: #333;
     margin: 0;
-    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Плавніші переходи */
+    transition: color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Більш плавні переходи */
     cursor: pointer;
 }
 
@@ -489,7 +510,22 @@ body {
     
     /* Зменшіть padding, оскільки він вже є на .menu-content-container */
     padding: 0;
-    overflow: hidden;
+    overflow: visible; /* Змінимо на visible для роботи свайпу */
+    position: relative;
+    z-index: 10; /* Встановлюємо високе значення, щоб він був на передньому плані */
+}
+
+/* Додаткова оптимізація для .myMenuSwiper (якщо використовується) */
+.myMenuSwiper {
+    z-index: 10; /* Встановлюємо високе значення, щоб він був на передньому плані */
+    position: relative;
+}
+
+.swiper-wrapper {
+    /* Додайте висоту, якщо вона не розраховується автоматично */
+    min-height: 450px;
+        display: flex;
+        align-items: center;
 }
 
 /* 3. Коригування Кнопок Навігації */
@@ -500,7 +536,13 @@ body {
     background-color: transparent;
     z-index: 20; /* Щоб кнопки були над слайдером */
         position: relative;
-    }
+    /* Переконаємось що кнопки займають мінімально необхідну область */
+    pointer-events: auto;
+    /* Додатково: встановлюємо мінімальний padding для зручності натискання */
+    min-height: 40px;
+    padding: 8px 16px;
+}
+
     
 .menu-content-container .btn-outline-danger:hover {
     background-color: #008C45 !important;
@@ -525,6 +567,9 @@ body {
     gap: 8rem; /* Значно збільшено простір для ефекту якості */
     overflow-x: auto;
     overflow-y: hidden;
+    /* КРИТИЧНО: Дозволяємо touch для свайпу на мобільних */
+    -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+    touch-action: pan-x pan-y pinch-zoom; /* Дозволяємо горизонтальний свайп */
     scroll-behavior: smooth;
     padding: 40px 60px; /* Збільшено padding для більш просторого вигляду */
     -ms-overflow-style: none;
@@ -533,6 +578,13 @@ body {
     max-width: 100%;
     margin: 0;
     align-items: center; /* Вирівнювання по центру для кращого вигляду */
+    /* КРИТИЧНО: Забезпечуємо достатню висоту та ширину для активації свайпу */
+    min-height: 400px;
+    position: relative;
+    /* Дозволяємо всі pointer events */
+    pointer-events: auto;
+    /* Додатково: z-index для переконання, що він на передньому плані */
+    z-index: 5;
 }
 
 #popular-scroll::-webkit-scrollbar {
@@ -557,6 +609,13 @@ body {
     margin: 20px 0; /* Додатковий вертикальний простір */
     padding: 10px; /* Внутрішній простір навколо зображення */
     overflow: visible; /* Дозволяє зіркам бути видимими */
+    /* КРИТИЧНО: Дозволяємо touch events */
+    touch-action: pan-y pinch-zoom; /* Дозволяємо вертикальні жести */
+    -webkit-tap-highlight-color: transparent; /* Прибираємо highlight на мобільних */
+    user-select: none; /* Забороняємо виділення тексту */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 /* Активна страва - більша на фоні */
@@ -979,8 +1038,10 @@ body {
     height: 60%; 
     width: 100%;
     object-fit: cover;
+    object-position: center center;
     /* Видалено всі ефекти - просто блюдо */
     border-radius: 0; /* Прибрано закруглення */
+    display: block;
 }
 
 .recipe-content {
@@ -1076,9 +1137,20 @@ body {
     background-color: #DA291C;
 }
 
+/* --- Контейнер слайдера --- */
+.swiper {
+    /* Переконайтеся, що контейнер приховує надлишковий вміст */
+    overflow: hidden;
+}
+
 .recipes-section .swiper {
     position: relative;
     z-index: 5; /* Вище за градієнти */
+    overflow: hidden; /* Додатково для запобігання обриву */
+}
+
+.instagram-section .swiper {
+    overflow: hidden; /* Додатково для запобігання обриву */
 }
 
 .recipes-section .btn-outline-danger {
@@ -1178,6 +1250,10 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     background-color: #DA291C !important; /* CRITICAL FIX: Червоний фон для Instagram карток */
+    /* Додаємо flexbox для центрування зображень, якщо вони менші */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .instagram-card::before {
@@ -1207,7 +1283,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center center;
     border-radius: 20px;
     z-index: 1; /* Під оверлеєм */
     position: relative;
@@ -1485,14 +1561,14 @@ body {
     
     .highlight-image-left,
     .highlight-image-right {
-        width: 200px;
-        height: 200px;
+        width: 280px; /* Збільшено з 200px до 280px */
+        height: 280px; /* Збільшено з 200px до 280px */
     }
     
     .highlight-star-left,
     .highlight-star-right {
-        width: 250px; /* Пропорційно зображенню 200px */
-        height: 250px;
+        width: 350px; /* Пропорційно зображенню 280px */
+        height: 350px; /* Пропорційно зображенню 280px */
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%); /* Центруємо зірку */
@@ -1532,14 +1608,57 @@ body {
         font-size: 0.9rem;
     }
     
+    /* --- Mobile Optimization: Header Buttons (Max Width 768px) --- */
     .header-actions {
+        /* Примусове горизонтальне розташування */
+        flex-direction: row !important;
+        align-items: center;
         gap: 5px;
+        /* Зменшуємо простір від краю */
+        padding-right: 10px;
+        justify-content: flex-end;
+    }
+    
+    .header-actions .btn-find-product {
+        /* Зменшуємо розмір шрифту */
+        font-size: 0.75rem !important;
+        /* Зменшуємо вертикальний та горизонтальний padding */
+        padding: 8px 10px !important;
+        /* Зменшуємо горизонтальний відступ між кнопками */
+        margin: 0 3px !important;
+        /* Мінімальна ширина для зручності торкання */
+        min-width: 80px;
+        /* Переконаємось що кнопки видимі */
+        white-space: nowrap;
     }
     
     .btn-outline-light,
     .btn-primary {
-        font-size: 0.8rem;
-        padding: 6px 12px;
+        font-size: 0.75rem !important;
+        padding: 8px 10px !important;
+        min-width: 80px;
+    }
+    
+    /* Корекція логотипу (щоб не конфліктував з кнопками) */
+    .logo-text {
+        /* Переконаємось що логотип не займає весь центр */
+        position: static;
+        transform: none;
+        flex: 0 0 auto;
+        max-width: 50%;
+        text-align: center;
+    }
+    
+    /* Корекція navbar для правильного розташування */
+    .navbar {
+        justify-content: space-between;
+    }
+    
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
     }
     
     .slide-title {
@@ -1584,13 +1703,19 @@ body {
         padding: 0 10px;
     }
     
+    /* --- Menu Scroll Container Mobile (Оптимізований свайп) --- */
     #popular-scroll {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
-        height: 450px;
         padding: 30px 20px;
         gap: 4rem; /* Більший простір для мобільних */
+        /* КРИТИЧНО: Дозволяємо touch для свайпу на мобільних */
+        -webkit-overflow-scrolling: touch !important;
+        touch-action: pan-x !important;
+        scroll-behavior: smooth !important;
+        /* Переконаємось що контейнер може приймати touch events */
+        pointer-events: auto !important;
     }
     
     .popular-item-wrapper:not(.active) {
@@ -1714,9 +1839,10 @@ body {
         overflow-y: visible !important;
     }
     
+    /* --- Fix: Highlights Section Size and Text on Mobile (Max Width 768px) --- */
     .highlight-section {
-        min-height: 35vh;
-        padding: 40px 10px;
+        min-height: 50vh; /* Збільшуємо мінімальну висоту */
+        padding: 50px 10px; /* Додаємо вертикальні відступи */
     }
     
     .highlight-content {
@@ -1724,18 +1850,18 @@ body {
     }
     
     .highlight-word {
-        font-size: 3vw;
-        line-height: 1.5;
+        font-size: 8vw; /* Зменшуємо з 5vw до 8vw для читабельності */
+        line-height: 1.2;
     }
     
     .highlight-image-left,
     .highlight-image-right {
-        width: 150px;
-        height: 150px;
+        width: 220px; /* Збільшено з 150px до 220px */
+        height: 220px; /* Збільшено з 150px до 220px */
         /* Плавні переходи для мобільних */
         transform: scale(0.8) translateY(15px); /* Початкове положення */
-        transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), 
-                     transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: opacity 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                     transform 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     
     .highlight-image-left.active,
@@ -1745,13 +1871,14 @@ body {
     
     .highlight-star-left,
     .highlight-star-right {
-        width: 200px; /* Пропорційно зображенню 150px */
-        height: 200px;
+        width: 280px; /* Пропорційно зображенню 220px */
+        height: 280px; /* Пропорційно зображенню 220px */
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%); /* Центруємо зірку */
         opacity: 0; /* Початково невидима на мобільних */
-        transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: opacity 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation: starGlowHighlight 3s ease-in-out infinite; /* Більш повільна анімація */
     }
     
     .highlight-image-left.active .highlight-star-left,
@@ -1761,8 +1888,8 @@ body {
     
     .highlight-word {
         /* Плавні переходи тексту для мобільних */
-        transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                   transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                   transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     
     .menu-section-title {
@@ -1973,15 +2100,34 @@ body {
         font-size: 1rem;
     }
     
+    /* --- Mobile Optimization: Header Buttons (Max Width 576px) --- */
     .header-actions {
-        flex-direction: column;
-        gap: 5px;
+        /* Зберігаємо горизонтальне розташування для маленьких екранів */
+        flex-direction: row !important;
+        align-items: center;
+        gap: 3px;
+        padding-right: 5px;
+        justify-content: flex-end;
+    }
+    
+    .header-actions .btn-find-product {
+        /* Ще менші кнопки для дуже маленьких екранів */
+        font-size: 0.7rem !important;
+        padding: 6px 8px !important;
+        margin: 0 2px !important;
+        min-width: 70px;
     }
     
     .btn-outline-light,
     .btn-primary {
-        font-size: 0.75rem;
-        padding: 5px 10px;
+        font-size: 0.7rem !important;
+        padding: 6px 8px !important;
+        min-width: 70px;
+    }
+    
+    .logo-text {
+        font-size: 0.9rem !important;
+        max-width: 45%;
     }
     
     .nav-link {
@@ -2019,24 +2165,26 @@ body {
         font-size: 0.65rem;
     }
     
+    /* --- Fix: Highlights Section Size and Text on Mobile (Max Width 576px) --- */
     .highlight-section {
-        min-height: 30vh;
-        padding: 30px 5px;
+        min-height: 45vh; /* Збільшуємо для дуже маленьких екранів */
+        padding: 40px 5px;
     }
     
     .highlight-word {
-        font-size: 4vw;
+        font-size: 7vw; /* Компроміс між читабельністю та розміром */
         margin: 5px 0;
+        line-height: 1.3;
     }
     
     .highlight-image-left,
     .highlight-image-right {
-        width: 120px;
-        height: 120px;
+        width: 180px; /* Збільшено з 120px до 180px */
+        height: 180px; /* Збільшено з 120px до 180px */
         /* Плавні переходи для маленьких мобільних */
         transform: scale(0.75) translateY(10px); /* Початкове положення для маленьких екранів */
-        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
-                     transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                     transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         overflow: visible !important; /* Дозволяє зіркам бути видимими на мобільних */
     }
     
@@ -2057,13 +2205,14 @@ body {
     
     .highlight-star-left,
     .highlight-star-right {
-        width: 200px; /* Пропорційно зображенню 120px, як в popular-item (400px для popular-item 100px = 4x) */
-        height: 200px;
+        width: 240px; /* Пропорційно зображенню 180px */
+        height: 240px; /* Пропорційно зображенню 180px */
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%); /* Центруємо зірку */
         opacity: 0; /* Початково невидима на маленьких мобільних */
-        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation: starGlowHighlight 3s ease-in-out infinite; /* Більш повільна анімація */
     }
     
     .highlight-image-left.active .highlight-star-left,
@@ -2073,8 +2222,8 @@ body {
     
     .highlight-word {
         /* Плавні переходи тексту для маленьких мобільних */
-        transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                   transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: color 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                   transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     
     .menu-section-title {
@@ -2175,8 +2324,15 @@ body {
         margin-bottom: 30px;
     }
     
+    /* --- Global Mobile Optimization Check --- */
+    .swiper-slide {
+        /* Переконайтеся, що слайди не змушені ставати блочними (вертикальними) */
+        flex-shrink: 0 !important; /* Якщо використовується Flexbox, вони повинні бути в одному рядку */
+    }
+    
     .recipe-card-slide {
-        width: 260px !important;
+        width: calc(100vw - 60px) !important; /* Одна повна картка з урахуванням padding */
+        max-width: 100% !important; /* Не обмежуємо максимальну ширину */
         height: 360px;
         margin: 0;
         border-radius: 20px; /* Збережуємо закруглені кути */
@@ -2209,7 +2365,8 @@ body {
     }
     
     .instagram-card-slide {
-        width: 260px !important; /* Такий самий як recipe-card-slide на мобільних */
+        width: 80vw !important; /* Примусова фіксована ширина (80% екрана) */
+        max-width: 280px !important; /* Обмеження максимальної ширини */
         height: 360px;
     }
     
@@ -2330,13 +2487,13 @@ body {
 @media (max-width: 768px) {
     .highlight-image-left,
     .highlight-image-right {
-        /* ЗМЕНШЕННЯ РОЗМІРУ до 120px */
-        width: 120px !important; 
-        height: 120px !important;
+        /* ЗБІЛЬШЕННЯ РОЗМІРУ до 180px */
+        width: 180px !important; 
+        height: 180px !important;
         /* Плавні переходи для мобільних landscape */
         transform: scale(0.75) translateY(10px) !important;
-        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
-                     transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                     transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
     }
     
     /* Корегування фінальної позиції для меншого екрана */
@@ -2352,13 +2509,14 @@ body {
         transform: scale(1) translateY(0) !important; /* Плавна поява */
     }
     
-    /* Корегування розміру зірок для менших зображень */
+    /* Корегування розміру зірок для збільшених зображень */
     .highlight-star-left,
     .highlight-star-right {
-        width: 150px !important; /* Зменшено пропорційно до 120px зображення */
-        height: 150px !important;
+        width: 240px !important; /* Пропорційно зображенню 180px */
+        height: 240px !important;
         opacity: 0 !important; /* Початково невидима */
-        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        animation: starGlowHighlight 3s ease-in-out infinite !important; /* Більш повільна анімація */
     }
     
     .highlight-image-left.active .highlight-star-left,
